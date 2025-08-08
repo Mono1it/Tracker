@@ -7,7 +7,16 @@ class MainScreenViewController: UIViewController {
     private var searchbarPlaceholder = "Поиск"
     
     // MARK: - UI Elements
-    lazy var trackerTitleLabel: UILabel = {
+    private lazy var collectionView: UICollectionView = {
+       let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 9
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collection.backgroundColor = .red
+        collection.translatesAutoresizingMaskIntoConstraints = false
+        return collection
+    }()
+    
+    private lazy var trackerTitleLabel: UILabel = {
         let label = UILabel()
         label.text = trackerTitleText
         label.textAlignment = .left
@@ -16,7 +25,7 @@ class MainScreenViewController: UIViewController {
         return label
     }()
     
-    lazy var addTrackerButton: UIButton = {
+    private lazy var addTrackerButton: UIButton = {
         let button = UIButton.systemButton(
             with: UIImage(resource: .addTrackerButton),
             target: nil,
@@ -25,7 +34,7 @@ class MainScreenViewController: UIViewController {
         return button
     }()
     
-    lazy var trackerDatePicker: UIDatePicker = {
+    private lazy var trackerDatePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
         datePicker.minimumDate = Date()
@@ -35,13 +44,13 @@ class MainScreenViewController: UIViewController {
         return datePicker
     }()
     
-    lazy var starImage: UIImageView = {
+    private lazy var starImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(resource: .star)
         return image
     }()
     
-    lazy var startQuestion: UILabel = {
+    private lazy var startQuestion: UILabel = {
         let label = UILabel()
         label.text = startQuestionText
         label.textColor = UIColor(resource: .ypBlack)
@@ -49,7 +58,7 @@ class MainScreenViewController: UIViewController {
         return label
     }()
     
-    lazy var searchBar: UISearchBar = {
+    private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.barTintColor = UIColor(resource: .ypBackground)
         searchBar.searchBarStyle = .minimal
@@ -68,11 +77,26 @@ class MainScreenViewController: UIViewController {
         setupSearchBar()
         setupStarImage()
         setupStartQuestion()
+        setupCollectionView()
     }
 
     // MARK: - Setup Functions
+    private func setupCollectionView() {
+//        collectionView.delegate = self
+//        collectionView.dataSource = self
+//        
+//        collectionView.register(<#T##cellClass: AnyClass?##AnyClass?#>, forCellWithReuseIdentifier: <#T##String#>)
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 16),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -2)
+        ])
+    }
+    
     private func setupUI() {
-        view.addSubviews(trackerTitleLabel, addTrackerButton, trackerDatePicker, starImage, startQuestion, searchBar)
+        view.addSubviews(trackerTitleLabel, addTrackerButton, trackerDatePicker, starImage, startQuestion, searchBar, collectionView)
         view.backgroundColor = .ypBackground
     }
     
@@ -96,7 +120,7 @@ class MainScreenViewController: UIViewController {
     private func setupTrackerDatePicker() {
         NSLayoutConstraint.activate([
             trackerDatePicker.heightAnchor.constraint(equalToConstant: 34),
-            trackerDatePicker.widthAnchor.constraint(equalToConstant: 97),
+            trackerDatePicker.leadingAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 77), // В фигме размер 77, но при таком размере дата отображается так: "12.12.2...."
             trackerDatePicker.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5),
             trackerDatePicker.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
         ])

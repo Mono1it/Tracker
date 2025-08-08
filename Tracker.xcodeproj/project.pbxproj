@@ -14,6 +14,7 @@
 		094318D02E367A9800F4D094 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 094318CE2E367A9800F4D094 /* LaunchScreen.storyboard */; };
 		094318D92E37A54000F4D094 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094318D82E37A54000F4D094 /* TabBarController.swift */; };
 		094318DB2E37A63C00F4D094 /* StatisticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094318DA2E37A63C00F4D094 /* StatisticViewController.swift */; };
+		09E5406D2E4693BA00442164 /* TrackerStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E5406C2E4693BA00442164 /* TrackerStructures.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		094318D12E367A9800F4D094 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		094318D82E37A54000F4D094 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		094318DA2E37A63C00F4D094 /* StatisticViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticViewController.swift; sourceTree = "<group>"; };
+		09E5406C2E4693BA00442164 /* TrackerStructures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerStructures.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +76,7 @@
 				094318D82E37A54000F4D094 /* TabBarController.swift */,
 				094318C72E367A9600F4D094 /* MainScreenViewController.swift */,
 				094318DA2E37A63C00F4D094 /* StatisticViewController.swift */,
+				09E5406C2E4693BA00442164 /* TrackerStructures.swift */,
 			);
 			path = MainScreen;
 			sourceTree = "<group>";
@@ -148,6 +151,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09E5406D2E4693BA00442164 /* TrackerStructures.swift in Sources */,
 				094318C82E367A9600F4D094 /* MainScreenViewController.swift in Sources */,
 				094318D92E37A54000F4D094 /* TabBarController.swift in Sources */,
 				094318C42E367A9600F4D094 /* AppDelegate.swift in Sources */,

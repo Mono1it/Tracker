@@ -4,7 +4,7 @@ final class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let mainScreenVC = MainScreenViewController()
+        let mainScreenVC = TrackersViewController()
         let statisticVC = StatisticViewController()
         
         mainScreenVC.tabBarItem = UITabBarItem(

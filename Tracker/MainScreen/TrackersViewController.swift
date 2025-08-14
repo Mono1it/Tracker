@@ -1,6 +1,6 @@
 import UIKit
 
-class MainScreenViewController: UIViewController {
+class TrackersViewController: UIViewController {
     //MARK: - Variables Of UI Elements
     private var trackerTitleText = "Трекеры"
     private var startQuestionText = "Что будем отслеживать?"
@@ -11,8 +11,7 @@ class MainScreenViewController: UIViewController {
        let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 9
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collection.backgroundColor = .red
-        collection.translatesAutoresizingMaskIntoConstraints = false
+        collection.backgroundColor = .clear
         return collection
     }()
     
@@ -29,7 +28,7 @@ class MainScreenViewController: UIViewController {
         let button = UIButton.systemButton(
             with: UIImage(resource: .addTrackerButton),
             target: nil,
-            action: nil)
+            action: #selector(openCreateHabbitModalWindow))
         button.tintColor = .ypBlack
         return button
     }()
@@ -75,11 +74,18 @@ class MainScreenViewController: UIViewController {
         setupAddTrackerButton()
         setupTrackerDatePicker()
         setupSearchBar()
-        setupStarImage()
-        setupStartQuestion()
+        setupStarQuestion()
         setupCollectionView()
     }
-
+    
+    //MARK: - Button Action
+    @objc private func openCreateHabbitModalWindow() {
+        let modalVC = CreateHabbitModalViewController()
+        modalVC.modalPresentationStyle = .automatic
+        modalVC.modalTransitionStyle = .coverVertical
+        present(modalVC, animated: true)
+    }
+    
     // MARK: - Setup Functions
     private func setupCollectionView() {
 //        collectionView.delegate = self
@@ -97,7 +103,7 @@ class MainScreenViewController: UIViewController {
     
     private func setupUI() {
         view.addSubviews(trackerTitleLabel, addTrackerButton, trackerDatePicker, starImage, startQuestion, searchBar, collectionView)
-        view.backgroundColor = .ypBackground
+        view.backgroundColor = .ypWhite
     }
     
     private func setupTrackerTitle() {
@@ -126,17 +132,12 @@ class MainScreenViewController: UIViewController {
         ])
     }
     
-    private func setupStarImage() {
+    private func setupStarQuestion() {
         NSLayoutConstraint.activate([
             starImage.heightAnchor.constraint(equalToConstant: 80),
             starImage.widthAnchor.constraint(equalToConstant: 80),
             starImage.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            starImage.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)
-        ])
-    }
-    
-    private func setupStartQuestion() {
-        NSLayoutConstraint.activate([
+            starImage.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
             startQuestion.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             startQuestion.topAnchor.constraint(equalTo: starImage.bottomAnchor, constant: 8)
         ])

@@ -11,7 +11,7 @@ struct Tracker {
 enum WeekDay: Int, CaseIterable {
     case monday, tuesday, wednesday, thursday, friday, saturday, sunday
     
-    var title: String {
+    var name: String {
         switch self {
         case .monday: return "Понедельник"
         case .tuesday: return "Вторник"
@@ -22,14 +22,25 @@ enum WeekDay: Int, CaseIterable {
         case .sunday: return "Воскресенье"
         }
     }
+    
+    var shortTitle: String {
+        switch self {
+        case .monday: return "Пн."
+        case .tuesday: return "Вт."
+        case .wednesday: return "Ср."
+        case .thursday: return "Чт."
+        case .friday: return "Пт."
+        case .saturday: return "Сб."
+        case .sunday: return "Вс."
+        }
+    }
 }
-
-struct TrackerCategory {
-    let title: String
-    let trackers: [Tracker]
-}
-
-struct TrackerRecord {
-    let trackerId: UUID
-    let date: String // формат "YYYY-MM-DD"
-}
+    struct TrackerCategory {
+        let title: String
+        let trackers: [Tracker]
+    }
+    
+    struct TrackerRecord {
+        let trackerId: UUID
+        let date: String // формат "YYYY-MM-DD"
+    }

@@ -1,6 +1,8 @@
 import UIKit
 
 class TrackersViewController: UIViewController {
+    
+    var trackers: [Tracker] = [Tracker(id: UUID(), name: "Трекер 1", color: .ypGreen, emoji: "😪", schedule: [.friday, .monday]), Tracker(id: UUID(), name: "Трекер 2", color: .ypRed, emoji: "😪", schedule: [.friday, .monday, .tuesday])]
     //MARK: - Variables Of UI Elements
     private var trackerTitleText = "Трекеры"
     private var startQuestionText = "Что будем отслеживать?"
@@ -76,6 +78,7 @@ class TrackersViewController: UIViewController {
         setupSearchBar()
         setupStarQuestion()
         setupCollectionView()
+        updateUI()
     }
     
     //MARK: - Button Action
@@ -88,10 +91,10 @@ class TrackersViewController: UIViewController {
     
     // MARK: - Setup Functions
     private func setupCollectionView() {
-//        collectionView.delegate = self
-//        collectionView.dataSource = self
-//        
-//        collectionView.register(<#T##cellClass: AnyClass?##AnyClass?#>, forCellWithReuseIdentifier: <#T##String#>)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        collectionView.register(TrackerCell.self, forCellWithReuseIdentifier: TrackerCell.identifier)
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 16),
@@ -150,6 +153,13 @@ class TrackersViewController: UIViewController {
             searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8)
         ])
     }
+    
+    func updateUI() {
+        let isEmpty = trackers.isEmpty
+        starImage.isHidden = !isEmpty
+        startQuestion.isHidden = !isEmpty
+        collectionView.isHidden = isEmpty
+    }
 }
 
 // MARK: - Extensions
@@ -159,5 +169,26 @@ extension UIView {
             $0.translatesAutoresizingMaskIntoConstraints = false
             addSubview($0)
         }
+    }
+}
+
+extension TrackersViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        updateUI()
+        return trackers.count
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackerCell.identifier, for: indexPath) as? TrackerCell else { return UICollectionViewCell() }
+        cell.configure(emoji: trackers[indexPath.row].emoji, title: trackers[indexPath.row].name, days: trackers[indexPath.row].schedule.count , color: trackers[indexPath.row].color)
+        cell.prepareForReuse()
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let spacing: CGFloat = 10
+        let width = (collectionView.bounds.width - spacing) / 2
+        return CGSize(width: width, height: 148)
     }
 }

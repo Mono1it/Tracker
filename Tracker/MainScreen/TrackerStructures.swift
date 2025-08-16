@@ -37,10 +37,10 @@ enum WeekDay: Int, CaseIterable {
 }
     struct TrackerCategory {
         let title: String
-        let trackers: [Tracker]
+        var trackers: [Tracker]
     }
     
     struct TrackerRecord {
         let trackerId: UUID
-        let date: String // формат "YYYY-MM-DD"
+        let date: String
     }

@@ -1,8 +1,11 @@
 import UIKit
 
-class TrackersViewController: UIViewController {
+class TrackersViewController: UIViewController, HabbitViewControllerDelegate, TrackerCellDelegate {
     
-    var trackers: [Tracker] = [Tracker(id: UUID(), name: "Трекер 1", color: .ypGreen, emoji: "😪", schedule: [.friday, .monday]), Tracker(id: UUID(), name: "Трекер 2", color: .ypRed, emoji: "😪", schedule: [.friday, .monday, .tuesday])]
+    var trackersCategory: [TrackerCategory] = []
+    var completedTrackers: Set<UUID> = []
+    var trackerRecords: [UUID: Int] = [:] // Потом переделаю в TrackerRecord
+    
     //MARK: - Variables Of UI Elements
     private var trackerTitleText = "Трекеры"
     private var startQuestionText = "Что будем отслеживать?"
@@ -10,7 +13,7 @@ class TrackersViewController: UIViewController {
     
     // MARK: - UI Elements
     private lazy var collectionView: UICollectionView = {
-       let layout = UICollectionViewFlowLayout()
+        let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 9
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.backgroundColor = .clear
@@ -84,6 +87,7 @@ class TrackersViewController: UIViewController {
     //MARK: - Button Action
     @objc private func openCreateHabbitModalWindow() {
         let modalVC = CreateHabbitModalViewController()
+        modalVC.delegate = self
         modalVC.modalPresentationStyle = .automatic
         modalVC.modalTransitionStyle = .coverVertical
         present(modalVC, animated: true)
@@ -94,7 +98,16 @@ class TrackersViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        collectionView.register(TrackerCell.self, forCellWithReuseIdentifier: TrackerCell.identifier)
+        collectionView.register(
+            TrackerCell.self,
+            forCellWithReuseIdentifier: TrackerCell.identifier
+        )
+        
+        collectionView.register(
+            TrackerCategoryHeader.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: TrackerCategoryHeader.identifier
+        )
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 16),
@@ -155,11 +168,42 @@ class TrackersViewController: UIViewController {
     }
     
     func updateUI() {
-        let isEmpty = trackers.isEmpty
+        let isEmpty = trackersCategory.isEmpty
         starImage.isHidden = !isEmpty
         startQuestion.isHidden = !isEmpty
         collectionView.isHidden = isEmpty
     }
+    
+    // MARK: - Delegate Methods
+    func habbitViewController(_ controller: CreateHabbitModalViewController, didCreate tracker: Tracker, inCategory category: String) {
+        if let index = trackersCategory.firstIndex(where: { $0.title == category }) {
+            trackersCategory[index].trackers.append(tracker)
+        } else {
+            trackersCategory.append(TrackerCategory(title: category, trackers: [tracker]))
+        }
+        collectionView.reloadData()
+        updateUI()
+    }
+    
+    func didTapPlusButton(in cell: TrackerCell) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        let tracker = trackersCategory[indexPath.section].trackers[indexPath.row]
+        
+        let isCompleted = completedTrackers.contains(tracker.id)
+        
+        if isCompleted {
+            // отменяем выполнение
+            completedTrackers.remove(tracker.id)
+            trackerRecords[tracker.id, default: 1] -= 1
+        } else {
+            // выполняем
+            completedTrackers.insert(tracker.id)
+            trackerRecords[tracker.id, default: 0] += 1
+        }
+        
+        collectionView.reloadItems(at: [indexPath])
+    }
+    
 }
 
 // MARK: - Extensions
@@ -173,15 +217,50 @@ extension UIView {
 }
 
 extension TrackersViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        trackersCategory.count
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         updateUI()
-        return trackers.count
+        return trackersCategory[section].trackers.count
         
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard kind == UICollectionView.elementKindSectionHeader else { return UICollectionReusableView() }
+        
+        guard let header = collectionView.dequeueReusableSupplementaryView(
+            ofKind: kind,
+            withReuseIdentifier: TrackerCategoryHeader.identifier,
+            for: indexPath
+        ) as? TrackerCategoryHeader else { return UICollectionReusableView() }
+        
+        header.configure(with: trackersCategory[indexPath.section].title)
+        return header
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.bounds.width, height: 32)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackerCell.identifier, for: indexPath) as? TrackerCell else { return UICollectionViewCell() }
-        cell.configure(emoji: trackers[indexPath.row].emoji, title: trackers[indexPath.row].name, days: trackers[indexPath.row].schedule.count , color: trackers[indexPath.row].color)
+        
+        let tracker = trackersCategory[indexPath.section].trackers[indexPath.row]
+        let days = trackerRecords[tracker.id] ?? 0
+        let isCompleted = completedTrackers.contains(tracker.id)
+
+        cell.delegate = self
+        cell.configure(
+            emoji: tracker.emoji,
+            title: tracker.name,
+            days: days,
+            color: tracker.color,
+            isCompleted: isCompleted
+        )
         cell.prepareForReuse()
         return cell
     }

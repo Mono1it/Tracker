@@ -1,6 +1,12 @@
 import UIKit
 
+protocol TrackerCellDelegate: AnyObject {
+    func didTapPlusButton(in cell: TrackerCell)
+}
+
 class TrackerCell: UICollectionViewCell {
+    
+    weak var delegate: TrackerCellDelegate?
     
     static let identifier = "TrackerCell"
     
@@ -52,6 +58,7 @@ class TrackerCell: UICollectionViewCell {
         button.layer.cornerRadius = 17
         button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.tintColor = .ypWhite
+        button.addTarget(self, action: #selector(plusTapped), for: .touchUpInside)
         return button
     }()
     
@@ -65,21 +72,10 @@ class TrackerCell: UICollectionViewCell {
     }
     
     private func setupUI() {
-        contentView.addSubview(cardView)
-        cardView.translatesAutoresizingMaskIntoConstraints = false
-        
-        cardView.addSubview(emojiBackground)
-        emojiBackground.translatesAutoresizingMaskIntoConstraints = false
-        emojiBackground.addSubview(emojiLabel)
-        emojiLabel.translatesAutoresizingMaskIntoConstraints = false
-        cardView.addSubview(titleLabel)
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(bottomView)
-        bottomView.translatesAutoresizingMaskIntoConstraints = false
-        bottomView.addSubview(daysLabel)
-        daysLabel.translatesAutoresizingMaskIntoConstraints = false
-        bottomView.addSubview(plusButton)
-        plusButton.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubviews(cardView, bottomView)
+        cardView.addSubviews(emojiBackground, titleLabel)
+        bottomView.addSubviews(daysLabel, plusButton)
+        emojiBackground.addSubviews(emojiLabel)
         
         NSLayoutConstraint.activate([
             // Card
@@ -120,11 +116,16 @@ class TrackerCell: UICollectionViewCell {
         ])
     }
     
-    func configure(emoji: String, title: String, days: Int, color: UIColor) {
+    @objc private func plusTapped() {
+        delegate?.didTapPlusButton(in: self)
+    }
+    
+    func configure(emoji: String, title: String, days: Int, color: UIColor, isCompleted: Bool) {
         emojiLabel.text = emoji
         titleLabel.text = title
         daysLabel.text = "\(days) дней"
         cardView.backgroundColor = color
-        plusButton.backgroundColor = color
+        plusButton.backgroundColor = isCompleted ? color.withAlphaComponent(0.3) : color
+        plusButton.setImage(UIImage(systemName: isCompleted ? "checkmark" : "plus"), for: .normal)
     }
 }

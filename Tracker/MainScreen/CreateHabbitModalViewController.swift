@@ -1,8 +1,19 @@
 import UIKit
 
+protocol HabbitViewControllerDelegate: AnyObject {
+    func habbitViewController(_ controller: CreateHabbitModalViewController, didCreate tracker: Tracker, inCategory category: String)
+}
+
 class CreateHabbitModalViewController: UIViewController, UITextFieldDelegate, ScheduleViewControllerDelegate {
     
+    weak var delegate: HabbitViewControllerDelegate?
+    
     private var weekDays: [WeekDay] = []
+    
+    lazy var categoryTitle: String = "Важное"
+    lazy var trackerName: String = "Трекер"
+    lazy var trackerColor: UIColor = .ypGreen
+    lazy var weekdaysForTracker: [WeekDay] = []
     
     //MARK: - Text Of UI Elements
     private let trackerTitleText = "Новая привычка"
@@ -61,9 +72,6 @@ class CreateHabbitModalViewController: UIViewController, UITextFieldDelegate, Sc
         let padding = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
         field.leftView = padding
         field.leftViewMode = .always
-        
-        // Кнопка очистки
-        field.clearButtonMode = .whileEditing
         return field
     }()
     
@@ -93,6 +101,7 @@ class CreateHabbitModalViewController: UIViewController, UITextFieldDelegate, Sc
         button.layer.cornerRadius = 16
         button.layer.masksToBounds = true
         
+        button.isEnabled = false
         button.addTarget(self, action: #selector(createButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -120,6 +129,15 @@ class CreateHabbitModalViewController: UIViewController, UITextFieldDelegate, Sc
     //MARK: - Button Action
     @objc private func createButtonTapped() {
         print("Кнопка 'Создать' нажата")
+        let tracker = Tracker(
+                id: UUID(),
+                name: trackerName,
+                color: trackerColor,
+                emoji: "😪",
+                schedule: weekdaysForTracker
+            )
+        delegate?.habbitViewController(self, didCreate: tracker, inCategory: categoryTitle)
+        dismiss(animated: true)
     }
     
     @objc private func cancelButtonTapped() {
@@ -133,6 +151,19 @@ class CreateHabbitModalViewController: UIViewController, UITextFieldDelegate, Sc
         modalVC.modalPresentationStyle = .automatic
         modalVC.modalTransitionStyle = .coverVertical
         present(modalVC, animated: true)
+    }
+    
+    private func updateCreateButton() {
+        let hasName = !(trackerName.trimmingCharacters(in: .whitespaces).isEmpty)
+        let hasSchedule = !weekdaysForTracker.isEmpty
+        
+        if hasName && hasSchedule {
+            createButton.isEnabled = true
+            createButton.backgroundColor = .ypBlack
+        } else {
+            createButton.isEnabled = false
+            createButton.backgroundColor = .ypGray
+        }
     }
     
     // MARK: - Setup Functions
@@ -190,6 +221,9 @@ class CreateHabbitModalViewController: UIViewController, UITextFieldDelegate, Sc
         let currentText = textField.text ?? ""
         guard let stringRange = Range(range, in: currentText) else { return false }
         let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        self.trackerName = updatedText
+        textField.clearButtonMode = .whileEditing
+        updateCreateButton()
         
         limitLabel.isHidden = updatedText.count <= 38
         return updatedText.count <= 38
@@ -198,7 +232,7 @@ class CreateHabbitModalViewController: UIViewController, UITextFieldDelegate, Sc
     func scheduleViewController(_ controller: ScheduleViewController, didSelectDays days: [WeekDay]) {
         print("Выбранные дни:", days)
         weekDays = days
-        
+        weekdaysForTracker = days
         let allDays = WeekDay.allCases
         let subtitle: String
         
@@ -210,10 +244,16 @@ class CreateHabbitModalViewController: UIViewController, UITextFieldDelegate, Sc
             subtitle = sortedDays.map { $0.shortTitle }.joined(separator: " ")
         }
         
+        updateCreateButton()
         cells[1].subtitle = subtitle.isEmpty ? nil : subtitle
         tableView.reloadData()
     }
     
+    // MARK: - Configure Methods
+    
+    private func configureTracker() -> TrackerCategory {
+        return TrackerCategory(title: self.categoryTitle, trackers: [Tracker(id: UUID(), name: self.trackerName, color: self.trackerColor, emoji: "😪", schedule: self.weekdaysForTracker)])
+    }
 }
 
 // MARK: - Extensions

@@ -20,6 +20,7 @@
 		09E540752E4E0D1E00442164 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E540742E4E0D1E00442164 /* ScheduleViewController.swift */; };
 		09E540772E4E133600442164 /* WeekDayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E540762E4E133600442164 /* WeekDayCell.swift */; };
 		09E540792E4F5E5A00442164 /* TrackerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E540782E4F5E5A00442164 /* TrackerCell.swift */; };
+		09E5407B2E51007D00442164 /* TrackerCategoryHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E5407A2E51007D00442164 /* TrackerCategoryHeader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		09E540742E4E0D1E00442164 /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		09E540762E4E133600442164 /* WeekDayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDayCell.swift; sourceTree = "<group>"; };
 		09E540782E4F5E5A00442164 /* TrackerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCell.swift; sourceTree = "<group>"; };
+		09E5407A2E51007D00442164 /* TrackerCategoryHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryHeader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 				09E540742E4E0D1E00442164 /* ScheduleViewController.swift */,
 				09E540762E4E133600442164 /* WeekDayCell.swift */,
 				09E540782E4F5E5A00442164 /* TrackerCell.swift */,
+				09E5407A2E51007D00442164 /* TrackerCategoryHeader.swift */,
 			);
 			path = MainScreen;
 			sourceTree = "<group>";
@@ -167,6 +170,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				09E540712E4BCB0D00442164 /* CreateHabbitModalViewController.swift in Sources */,
+				09E5407B2E51007D00442164 /* TrackerCategoryHeader.swift in Sources */,
 				09E5406D2E4693BA00442164 /* TrackerStructures.swift in Sources */,
 				094318C82E367A9600F4D094 /* TrackersViewController.swift in Sources */,
 				09E540752E4E0D1E00442164 /* ScheduleViewController.swift in Sources */,

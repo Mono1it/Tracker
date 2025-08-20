@@ -42,7 +42,7 @@ class WeekDayCell: UITableViewCell {
     
     // MARK: - Public method
     func configure(day: WeekDay, isOn: Bool) {
-        titleLabel.text = day.name
+        titleLabel.text = day.title
         toggleSwitch.isOn = isOn
     }
 }

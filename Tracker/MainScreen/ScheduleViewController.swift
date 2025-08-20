@@ -4,7 +4,7 @@ protocol ScheduleViewControllerDelegate: AnyObject {
     func scheduleViewController(_ controller: ScheduleViewController, didSelectDays days: [WeekDay])
 }
 
-class ScheduleViewController: UIViewController {
+final class ScheduleViewController: UIViewController {
     
     weak var delegate: ScheduleViewControllerDelegate?
     
@@ -60,14 +60,14 @@ class ScheduleViewController: UIViewController {
     }
     
     @objc private func switchChanged(_ sender: UISwitch) {
-            let day = WeekDay.allCases[sender.tag]
-            if sender.isOn {
-                selectedDays.insert(day)
-            } else {
-                selectedDays.remove(day)
-            }
-            print("Выбранные дни: \(selectedDays.map { $0.name })")
+        let day = WeekDay.allCases[sender.tag]
+        if sender.isOn {
+            selectedDays.insert(day)
+        } else {
+            selectedDays.remove(day)
         }
+        print("Выбранные дни: \(selectedDays.map { $0.title })")
+    }
     
     // MARK: - Setup Functions
     private func setupUI() {
@@ -130,7 +130,7 @@ extension ScheduleViewController: UITableViewDataSource, UITableViewDelegate {
         
         return cell
     }
-
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 75
     }

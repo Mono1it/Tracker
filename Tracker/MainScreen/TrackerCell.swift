@@ -1,15 +1,20 @@
 import UIKit
 
 protocol TrackerCellDelegate: AnyObject {
-    func didTapPlusButton(in cell: TrackerCell)
+    func completeTracker(id: UUID, in cell: TrackerCell)
+    func uncompleteTracker(id: UUID, in cell: TrackerCell)
 }
 
 class TrackerCell: UICollectionViewCell {
     
     weak var delegate: TrackerCellDelegate?
     
+    private var isCompletedToday: Bool = false
+    private var trackerId: UUID?
+    
     static let identifier = "TrackerCell"
     
+    //MARK: - UI Elements
     lazy var cardView: UIView = {
         let view = UIView()
         view.backgroundColor = .ypGreen
@@ -33,7 +38,7 @@ class TrackerCell: UICollectionViewCell {
     
     lazy var emojiLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         return label
     }()
     
@@ -58,7 +63,7 @@ class TrackerCell: UICollectionViewCell {
         button.layer.cornerRadius = 17
         button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.tintColor = .ypWhite
-        button.addTarget(self, action: #selector(plusTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(trackButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -116,16 +121,35 @@ class TrackerCell: UICollectionViewCell {
         ])
     }
     
-    @objc private func plusTapped() {
-        delegate?.didTapPlusButton(in: self)
+    @objc private func trackButtonTapped() {
+        guard let trackerId = trackerId else {
+            assertionFailure("no trackerID")
+            return
+        }
+        
+        if isCompletedToday {
+            delegate?.uncompleteTracker(id: trackerId, in: self)
+        } else {
+            delegate?.completeTracker(id: trackerId, in: self)
+        }
     }
     
-    func configure(emoji: String, title: String, days: Int, color: UIColor, isCompleted: Bool) {
-        emojiLabel.text = emoji
-        titleLabel.text = title
-        daysLabel.text = "\(days) дней"
+    func configure(
+        with tracker: Tracker,
+        isComletedToday: Bool,
+        comletedDays: Int
+    ) {
+        self.isCompletedToday = isComletedToday
+        self.trackerId = tracker.id
+        
+        let color = tracker.color
+        emojiLabel.text = tracker.emoji
+        titleLabel.text = tracker.title
+        
+        daysLabel.text = "\(comletedDays) дней"
+        
         cardView.backgroundColor = color
-        plusButton.backgroundColor = isCompleted ? color.withAlphaComponent(0.3) : color
-        plusButton.setImage(UIImage(systemName: isCompleted ? "checkmark" : "plus"), for: .normal)
+        plusButton.backgroundColor = isComletedToday ? color.withAlphaComponent(0.3) : color
+        plusButton.setImage(UIImage(systemName: isComletedToday ? "checkmark" : "plus"), for: .normal)
     }
 }

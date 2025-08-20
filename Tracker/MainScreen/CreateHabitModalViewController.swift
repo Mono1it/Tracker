@@ -1,19 +1,19 @@
 import UIKit
 
-protocol HabbitViewControllerDelegate: AnyObject {
-    func habbitViewController(_ controller: CreateHabbitModalViewController, didCreate tracker: Tracker, inCategory category: String)
+protocol HabitViewControllerDelegate: AnyObject {
+    func habbitViewController(_ controller: CreateHabitModalViewController, didCreate tracker: Tracker, inCategory category: String)
 }
 
-class CreateHabbitModalViewController: UIViewController, UITextFieldDelegate, ScheduleViewControllerDelegate {
+final class CreateHabitModalViewController: UIViewController, UITextFieldDelegate, ScheduleViewControllerDelegate {
     
-    weak var delegate: HabbitViewControllerDelegate?
+    weak var delegate: HabitViewControllerDelegate?
     
-    private var weekDays: [WeekDay] = []
+    private let limitLabelText: Int = 38
     
-    lazy var categoryTitle: String = "Важное"
-    lazy var trackerName: String = "Трекер"
-    lazy var trackerColor: UIColor = .ypGreen
-    lazy var weekdaysForTracker: [WeekDay] = []
+    private lazy var categoryTitle: String = "Важное"
+    private lazy var trackerName: String = "Трекер"
+    private lazy var trackerColor: UIColor = .ypGreen
+    private lazy var weekDaysForTracker: [WeekDay] = []
     
     //MARK: - Text Of UI Elements
     private let trackerTitleText = "Новая привычка"
@@ -68,7 +68,6 @@ class CreateHabbitModalViewController: UIViewController, UITextFieldDelegate, Sc
         field.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         field.layer.cornerRadius = 16
         field.layer.masksToBounds = true
-        
         let padding = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
         field.leftView = padding
         field.leftViewMode = .always
@@ -130,12 +129,12 @@ class CreateHabbitModalViewController: UIViewController, UITextFieldDelegate, Sc
     @objc private func createButtonTapped() {
         print("Кнопка 'Создать' нажата")
         let tracker = Tracker(
-                id: UUID(),
-                name: trackerName,
-                color: trackerColor,
-                emoji: "😪",
-                schedule: weekdaysForTracker
-            )
+            id: UUID(),
+            title: trackerName,
+            color: trackerColor,
+            emoji: "😪",
+            schedule: weekDaysForTracker
+        )
         delegate?.habbitViewController(self, didCreate: tracker, inCategory: categoryTitle)
         dismiss(animated: true)
     }
@@ -143,6 +142,11 @@ class CreateHabbitModalViewController: UIViewController, UITextFieldDelegate, Sc
     @objc private func cancelButtonTapped() {
         print("Кнопка 'Отменинь' нажата")
         dismiss(animated: true)
+    }
+    
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        self.trackerName = textField.text ?? ""
+        updateCreateButton()
     }
     
     private func openCreateHabbitModalWindow() {
@@ -155,7 +159,7 @@ class CreateHabbitModalViewController: UIViewController, UITextFieldDelegate, Sc
     
     private func updateCreateButton() {
         let hasName = !(trackerName.trimmingCharacters(in: .whitespaces).isEmpty)
-        let hasSchedule = !weekdaysForTracker.isEmpty
+        let hasSchedule = !weekDaysForTracker.isEmpty
         
         if hasName && hasSchedule {
             createButton.isEnabled = true
@@ -181,6 +185,7 @@ class CreateHabbitModalViewController: UIViewController, UITextFieldDelegate, Sc
     
     private func setupTextFieldView() {
         textField.delegate = self
+        textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
         NSLayoutConstraint.activate([
             stackTextFieldView.topAnchor.constraint(equalTo: trackerTitleLabel.bottomAnchor, constant: 38),
@@ -221,18 +226,14 @@ class CreateHabbitModalViewController: UIViewController, UITextFieldDelegate, Sc
         let currentText = textField.text ?? ""
         guard let stringRange = Range(range, in: currentText) else { return false }
         let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
-        self.trackerName = updatedText
-        textField.clearButtonMode = .whileEditing
-        updateCreateButton()
         
-        limitLabel.isHidden = updatedText.count <= 38
-        return updatedText.count <= 38
+        limitLabel.isHidden = updatedText.count <= limitLabelText
+        return updatedText.count <= limitLabelText
     }
     
     func scheduleViewController(_ controller: ScheduleViewController, didSelectDays days: [WeekDay]) {
         print("Выбранные дни:", days)
-        weekDays = days
-        weekdaysForTracker = days
+        weekDaysForTracker = days
         let allDays = WeekDay.allCases
         let subtitle: String
         
@@ -250,14 +251,13 @@ class CreateHabbitModalViewController: UIViewController, UITextFieldDelegate, Sc
     }
     
     // MARK: - Configure Methods
-    
     private func configureTracker() -> TrackerCategory {
-        return TrackerCategory(title: self.categoryTitle, trackers: [Tracker(id: UUID(), name: self.trackerName, color: self.trackerColor, emoji: "😪", schedule: self.weekdaysForTracker)])
+        TrackerCategory(title: categoryTitle, trackers: [Tracker(id: UUID(), title: trackerName, color: trackerColor, emoji: "😪", schedule: weekDaysForTracker)])
     }
 }
 
 // MARK: - Extensions
-extension CreateHabbitModalViewController: UITableViewDataSource, UITableViewDelegate {
+extension CreateHabitModalViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         cells.count

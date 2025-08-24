@@ -192,7 +192,7 @@ class TrackersViewController: UIViewController, HabitViewControllerDelegate {
     }
     
     @objc private func dateChanged() {
-        reloadVisibleCategiries()
+        reloadVisibleCategories()
     }
     
     //MARK: - Helpers
@@ -201,7 +201,7 @@ class TrackersViewController: UIViewController, HabitViewControllerDelegate {
         reloadPlaceholder()
     }
     
-    private func reloadVisibleCategiries() {
+    private func reloadVisibleCategories() {
         let calendar = Calendar.current
         let filterWeekday = calendar.component(.weekday, from: trackerDatePicker.date)
         let filterText = (searchBarTextField.text ?? "").lowercased()
@@ -243,7 +243,7 @@ extension TrackersViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        reloadVisibleCategiries()
+        reloadVisibleCategories()
         return true
     }
 }

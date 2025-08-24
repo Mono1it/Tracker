@@ -21,6 +21,9 @@
 		09E540772E4E133600442164 /* WeekDayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E540762E4E133600442164 /* WeekDayCell.swift */; };
 		09E540792E4F5E5A00442164 /* TrackerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E540782E4F5E5A00442164 /* TrackerCell.swift */; };
 		09E5407B2E51007D00442164 /* TrackerCategoryHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E5407A2E51007D00442164 /* TrackerCategoryHeader.swift */; };
+		09E5407E2E59EFBC00442164 /* EmojiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E5407D2E59EFBC00442164 /* EmojiCell.swift */; };
+		09E540822E5B4C4000442164 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E540812E5B4C4000442164 /* ColorCell.swift */; };
+		09E540842E5B534200442164 /* HabitHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E540832E5B534200442164 /* HabitHeader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +43,9 @@
 		09E540762E4E133600442164 /* WeekDayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDayCell.swift; sourceTree = "<group>"; };
 		09E540782E4F5E5A00442164 /* TrackerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCell.swift; sourceTree = "<group>"; };
 		09E5407A2E51007D00442164 /* TrackerCategoryHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryHeader.swift; sourceTree = "<group>"; };
+		09E5407D2E59EFBC00442164 /* EmojiCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCell.swift; sourceTree = "<group>"; };
+		09E540812E5B4C4000442164 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
+		09E540832E5B534200442164 /* HabitHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitHeader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +80,7 @@
 			children = (
 				094318C32E367A9600F4D094 /* AppDelegate.swift */,
 				094318C52E367A9600F4D094 /* SceneDelegate.swift */,
+				09E5407C2E59EFA300442164 /* CreateHabit */,
 				094318D72E36BE3500F4D094 /* MainScreen */,
 				094318CC2E367A9800F4D094 /* Assets.xcassets */,
 				094318CE2E367A9800F4D094 /* LaunchScreen.storyboard */,
@@ -89,7 +96,6 @@
 				094318C72E367A9600F4D094 /* TrackersViewController.swift */,
 				094318DA2E37A63C00F4D094 /* StatisticViewController.swift */,
 				09E5406C2E4693BA00442164 /* TrackerStructures.swift */,
-				09E540702E4BCB0D00442164 /* CreateHabitModalViewController.swift */,
 				09E540722E4CFB2E00442164 /* TableCellForCreateHabbit.swift */,
 				09E540742E4E0D1E00442164 /* ScheduleViewController.swift */,
 				09E540762E4E133600442164 /* WeekDayCell.swift */,
@@ -97,6 +103,17 @@
 				09E5407A2E51007D00442164 /* TrackerCategoryHeader.swift */,
 			);
 			path = MainScreen;
+			sourceTree = "<group>";
+		};
+		09E5407C2E59EFA300442164 /* CreateHabit */ = {
+			isa = PBXGroup;
+			children = (
+				09E540702E4BCB0D00442164 /* CreateHabitModalViewController.swift */,
+				09E5407D2E59EFBC00442164 /* EmojiCell.swift */,
+				09E540812E5B4C4000442164 /* ColorCell.swift */,
+				09E540832E5B534200442164 /* HabitHeader.swift */,
+			);
+			path = CreateHabit;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -172,14 +189,17 @@
 				09E540712E4BCB0D00442164 /* CreateHabitModalViewController.swift in Sources */,
 				09E5407B2E51007D00442164 /* TrackerCategoryHeader.swift in Sources */,
 				09E5406D2E4693BA00442164 /* TrackerStructures.swift in Sources */,
+				09E540842E5B534200442164 /* HabitHeader.swift in Sources */,
 				094318C82E367A9600F4D094 /* TrackersViewController.swift in Sources */,
 				09E540752E4E0D1E00442164 /* ScheduleViewController.swift in Sources */,
 				094318D92E37A54000F4D094 /* TabBarController.swift in Sources */,
 				09E540792E4F5E5A00442164 /* TrackerCell.swift in Sources */,
 				094318C42E367A9600F4D094 /* AppDelegate.swift in Sources */,
 				094318DB2E37A63C00F4D094 /* StatisticViewController.swift in Sources */,
+				09E540822E5B4C4000442164 /* ColorCell.swift in Sources */,
 				09E540732E4CFB2E00442164 /* TableCellForCreateHabbit.swift in Sources */,
 				09E540772E4E133600442164 /* WeekDayCell.swift in Sources */,
+				09E5407E2E59EFBC00442164 /* EmojiCell.swift in Sources */,
 				094318C62E367A9600F4D094 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

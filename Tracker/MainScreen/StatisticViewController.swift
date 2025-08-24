@@ -23,7 +23,7 @@ final class StatisticViewController: UIViewController {
     // MARK: - Setup Functions
     private func setupUI() {
         view.addSubviews(statisticTitleLabel)
-        view.backgroundColor = .ypBackground
+        view.backgroundColor = .ypWhite
     }
     
     private func setupStatisticTitleLabel() {

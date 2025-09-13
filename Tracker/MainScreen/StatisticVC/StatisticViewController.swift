@@ -1,4 +1,5 @@
 import UIKit
+import CoreData
 
 final class StatisticViewController: UIViewController {
     // MARK: - UI Elements

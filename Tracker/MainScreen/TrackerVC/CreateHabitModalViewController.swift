@@ -323,7 +323,7 @@ final class CreateHabitModalViewController: UIViewController, UITextFieldDelegat
     
 }
 
-// MARK: - Extensions
+// MARK: - CreateHabitModalViewController extension
 extension CreateHabitModalViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -350,7 +350,6 @@ extension CreateHabitModalViewController: UITableViewDataSource, UITableViewDele
         if cells[indexPath.row].title == "Расписание" {
             openCreateHabbitModalWindow()
         }
-        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -358,6 +357,7 @@ extension CreateHabitModalViewController: UITableViewDataSource, UITableViewDele
     }
 }
 
+// MARK: - CreateHabitModalViewController extension
 extension CreateHabitModalViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         2   // Количество секций в коллекции

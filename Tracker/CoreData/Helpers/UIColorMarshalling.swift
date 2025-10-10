@@ -16,7 +16,7 @@ final class UIColorMarshalling {
         let g = Int((green * 255).rounded())
         let b = Int((blue * 255).rounded())
         
-        return String(format: "#%02X$02X$02X", r, g ,b)
+        return String(format: "#%02X%02X%02X", r, g ,b)
     }
     
     static func color(from hex: String) -> UIColor? {

@@ -19,8 +19,8 @@ final class CoreDataManager {
     }()
 
     // MARK: - Core Data Context
-    var context: NSManagedObjectContext {
-        return persistentContainer.viewContext
+    var viewContext: NSManagedObjectContext {
+        persistentContainer.viewContext
     }
     
     // MARK: - Core Data Saving support
@@ -29,9 +29,10 @@ final class CoreDataManager {
         if context.hasChanges {
             do {
                 try context.save()
+                print("✅ Контекст сохранён")
             } catch {
                 let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                fatalError("❌ Не удалось сохранить контекст \(nsError), \(nsError.userInfo)")
             }
         }
     }

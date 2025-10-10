@@ -24,7 +24,7 @@
 		09E5407E2E59EFBC00442164 /* EmojiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E5407D2E59EFBC00442164 /* EmojiCell.swift */; };
 		09E540822E5B4C4000442164 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E540812E5B4C4000442164 /* ColorCell.swift */; };
 		09E540842E5B534200442164 /* HabitHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E540832E5B534200442164 /* HabitHeader.swift */; };
-		09E540AA2E5CABBC00442164 /* Trackers.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 09E540A82E5CABBC00442164 /* Trackers.xcdatamodeld */; };
+		09E540AA2E5CABBC00442164 /* TrackerModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 09E540A82E5CABBC00442164 /* TrackerModel.xcdatamodeld */; };
 		09E540D22E5DCB8E00442164 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E540D12E5DCB8E00442164 /* CoreDataManager.swift */; };
 		09E540E82E68578C00442164 /* TrackerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E540E72E68578C00442164 /* TrackerStore.swift */; };
 		09E540EA2E68579800442164 /* TrackerCategoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E540E92E68579800442164 /* TrackerCategoryStore.swift */; };
@@ -53,7 +53,7 @@
 		09E5407D2E59EFBC00442164 /* EmojiCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCell.swift; sourceTree = "<group>"; };
 		09E540812E5B4C4000442164 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
 		09E540832E5B534200442164 /* HabitHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitHeader.swift; sourceTree = "<group>"; };
-		09E540A92E5CABBC00442164 /* Tracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tracker.xcdatamodel; sourceTree = "<group>"; };
+		09E540A92E5CABBC00442164 /* TrackerModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TrackerModel.xcdatamodel; sourceTree = "<group>"; };
 		09E540D12E5DCB8E00442164 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		09E540E72E68578C00442164 /* TrackerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerStore.swift; sourceTree = "<group>"; };
 		09E540E92E68579800442164 /* TrackerCategoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryStore.swift; sourceTree = "<group>"; };
@@ -76,7 +76,7 @@
 		094318B72E367A9600F4D094 = {
 			isa = PBXGroup;
 			children = (
-				09E540A82E5CABBC00442164 /* Trackers.xcdatamodeld */,
+				09E540A82E5CABBC00442164 /* TrackerModel.xcdatamodeld */,
 				094318C22E367A9600F4D094 /* Tracker */,
 				094318C12E367A9600F4D094 /* Products */,
 			);
@@ -283,7 +283,7 @@
 				094318D92E37A54000F4D094 /* TabBarController.swift in Sources */,
 				09E540F22E685B6300442164 /* DaysValueTransformer.swift in Sources */,
 				09E540792E4F5E5A00442164 /* TrackerCell.swift in Sources */,
-				09E540AA2E5CABBC00442164 /* Trackers.xcdatamodeld in Sources */,
+				09E540AA2E5CABBC00442164 /* TrackerModel.xcdatamodeld in Sources */,
 				094318C42E367A9600F4D094 /* AppDelegate.swift in Sources */,
 				09E540EF2E68594B00442164 /* UIColorMarshalling.swift in Sources */,
 				094318DB2E37A63C00F4D094 /* StatisticViewController.swift in Sources */,
@@ -509,13 +509,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		09E540A82E5CABBC00442164 /* Trackers.xcdatamodeld */ = {
+		09E540A82E5CABBC00442164 /* TrackerModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				09E540A92E5CABBC00442164 /* Tracker.xcdatamodel */,
+				09E540A92E5CABBC00442164 /* TrackerModel.xcdatamodel */,
 			);
-			currentVersion = 09E540A92E5CABBC00442164 /* Tracker.xcdatamodel */;
-			path = Trackers.xcdatamodeld;
+			currentVersion = 09E540A92E5CABBC00442164 /* TrackerModel.xcdatamodel */;
+			path = TrackerModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

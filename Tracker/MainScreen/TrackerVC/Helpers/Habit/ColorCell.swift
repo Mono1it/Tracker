@@ -31,8 +31,9 @@ final class ColorCell: UICollectionViewCell {
         ])
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError()
+        nil
     }
     
     func configure(color: UIColor = .clear) {

@@ -26,8 +26,9 @@ final class EmojiCell: UICollectionViewCell {
         ])
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError()
+        nil
     }
     
     func configure(emoji: String = "") {

@@ -195,13 +195,9 @@ final class CreateHabitModalViewController: UIViewController, UITextFieldDelegat
         let hasEmoji = !(trackerEmoji?.isEmpty ?? true)
         let hasColor = trackerColor != UIColor.clear
         
-        if hasName && hasSchedule && hasEmoji && hasColor {
-            createButton.isEnabled = true
-            createButton.backgroundColor = .ypBlack
-        } else {
-            createButton.isEnabled = false
-            createButton.backgroundColor = .ypGray
-        }
+        let isButtonEnabled = hasName && hasSchedule && hasEmoji && hasColor
+        createButton.isEnabled = isButtonEnabled
+        createButton.backgroundColor = isButtonEnabled ? .ypBlack : .ypGray
     }
     
     // MARK: - Setup Functions
@@ -280,7 +276,7 @@ final class CreateHabitModalViewController: UIViewController, UITextFieldDelegat
             stackOfUIElements.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
             stackOfUIElements.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             stackOfUIElements.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -32)
-            ])
+        ])
     }
     
     private func setupStackButtons() {
@@ -353,7 +349,7 @@ extension CreateHabitModalViewController: UITableViewDataSource, UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 75   // Высота ячейки таблицы
+        75   // Высота ячейки таблицы
     }
 }
 
@@ -375,19 +371,19 @@ extension CreateHabitModalViewController: UICollectionViewDelegateFlowLayout, UI
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            switch indexPath.section {
-            case 0:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EmojiCell.identifier, for: indexPath) as? EmojiCell else { return UICollectionViewCell() }
-                cell.configure(emoji: emojiList[indexPath.item])
-                return cell
-            case 1:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ColorCell.identifier, for: indexPath) as? ColorCell else { return UICollectionViewCell() }
-                cell.configure(color: trackerColors[indexPath.item])
-                return cell
-            default:
-                return UICollectionViewCell()
-            }
+        switch indexPath.section {
+        case 0:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EmojiCell.identifier, for: indexPath) as? EmojiCell else { return UICollectionViewCell() }
+            cell.configure(emoji: emojiList[indexPath.item])
+            return cell
+        case 1:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ColorCell.identifier, for: indexPath) as? ColorCell else { return UICollectionViewCell() }
+            cell.configure(color: trackerColors[indexPath.item])
+            return cell
+        default:
+            return UICollectionViewCell()
         }
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         UIEdgeInsets(top: 24, left: 2, bottom: 24, right: 2)

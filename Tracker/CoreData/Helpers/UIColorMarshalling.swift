@@ -3,13 +3,13 @@ import UIKit
 final class UIColorMarshalling {
     
     static func hexString(from color: UIColor) -> String? {
-            var red: CGFloat = 0
-            var green: CGFloat = 0
-            var blue: CGFloat = 0
-            var alpha: CGFloat = 0
-            
-            guard color.getRed(&red, green: &green, blue: &blue, alpha: &alpha) else {
-                return nil
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        var alpha: CGFloat = 0
+        
+        guard color.getRed(&red, green: &green, blue: &blue, alpha: &alpha) else {
+            return nil
         }
         
         let r = Int((red * 255).rounded())

@@ -12,7 +12,7 @@ final class CoreDataManager {
         let container = NSPersistentContainer(name: "TrackerModel")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
+                assertionFailure("Unresolved error \(error), \(error.userInfo)")
             }
         })
         return container
@@ -32,7 +32,7 @@ final class CoreDataManager {
                 print("✅ Контекст сохранён")
             } catch {
                 let nsError = error as NSError
-                fatalError("❌ Не удалось сохранить контекст \(nsError), \(nsError.userInfo)")
+                assertionFailure("❌ Не удалось сохранить контекст \(nsError), \(nsError.userInfo)")
             }
         }
     }

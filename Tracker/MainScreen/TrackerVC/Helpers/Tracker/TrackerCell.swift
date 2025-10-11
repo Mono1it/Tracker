@@ -72,8 +72,9 @@ class TrackerCell: UICollectionViewCell {
         setupUI()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError()
+        nil
     }
     
     private func setupUI() {

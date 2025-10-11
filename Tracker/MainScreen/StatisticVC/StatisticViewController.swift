@@ -1,4 +1,5 @@
 import UIKit
+import CoreData
 
 final class StatisticViewController: UIViewController {
     // MARK: - UI Elements
@@ -23,7 +24,7 @@ final class StatisticViewController: UIViewController {
     // MARK: - Setup Functions
     private func setupUI() {
         view.addSubviews(statisticTitleLabel)
-        view.backgroundColor = .ypBackground
+        view.backgroundColor = .ypWhite
     }
     
     private func setupStatisticTitleLabel() {

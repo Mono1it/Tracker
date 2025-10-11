@@ -84,8 +84,29 @@ class TrackersViewController: UIViewController, HabitViewControllerDelegate {
         setupUI()
         setupConstraints()
         reloadData()
+        
+        TrackerStore.shared.delegate = self
+        TrackerStore.shared.startObservingChanges()
+        
+        TrackerCategoryStore.shared.delegate = self
+        TrackerCategoryStore.shared.startObservingChanges()
+        
+        TrackerRecordStore.shared.delegate = self
+        TrackerRecordStore.shared.startObservingChanges()
+        
+        reloadAllDataFromStores()
     }
     
+    private func reloadAllDataFromStores() {
+        do {
+            categories = try TrackerCategoryStore.shared.fetchCategories()
+            trackerRecords = try TrackerRecordStore.shared.fetchTrackerRecords()
+        } catch {
+            print("❌ Ошибка при фетче из Core Data: \(error)")
+        }
+
+        reloadVisibleCategories()
+    }
     
     // MARK: - Setup Functions
     private func setupCollectionView() {
@@ -173,13 +194,18 @@ class TrackersViewController: UIViewController, HabitViewControllerDelegate {
     
     // MARK: - Delegate Methods
     func habbitViewController(_ controller: CreateHabitModalViewController, didCreate tracker: Tracker, inCategory category: String) {
-        if let index = categories.firstIndex(where: { $0.title == category }) {
-            categories[index] = categories[index].addTracker(tracker)
+        // 1) если сущность категории уже есть в Core Data — добавим трекер туда
+        if let categoryEntity = TrackerCategoryStore.shared.fetchCategoryEntity(withTitle: category) {
+            TrackerStore.shared.addTracker(from: tracker, category: categoryEntity)
         } else {
-            categories.append(TrackerCategory(title: category, trackers: [tracker]))
+            // 2) иначе создаём новую категорию вместе с трекером
+            let dto = TrackerCategory(title: category, trackers: [tracker])
+            TrackerCategoryStore.shared.addTrackerCategory(dto)
         }
-        collectionView.reloadData()
-        reloadData()
+        
+        reloadAllDataFromStores()
+        
+        controller.dismiss(animated: true)
     }
     
     //MARK: - Button Action
@@ -192,7 +218,7 @@ class TrackersViewController: UIViewController, HabitViewControllerDelegate {
     }
     
     @objc private func dateChanged() {
-        reloadVisibleCategiries()
+        reloadVisibleCategories()
     }
     
     //MARK: - Helpers
@@ -201,7 +227,7 @@ class TrackersViewController: UIViewController, HabitViewControllerDelegate {
         reloadPlaceholder()
     }
     
-    private func reloadVisibleCategiries() {
+    private func reloadVisibleCategories() {
         let calendar = Calendar.current
         let filterWeekday = calendar.component(.weekday, from: trackerDatePicker.date)
         let filterText = (searchBarTextField.text ?? "").lowercased()
@@ -243,7 +269,7 @@ extension TrackersViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        reloadVisibleCategiries()
+        reloadVisibleCategories()
         return true
     }
 }
@@ -297,32 +323,20 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout, UICollecti
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackerCell.identifier, for: indexPath) as? TrackerCell else { return UICollectionViewCell() }
         
-        let cellData = visibleCategories
-        let tracker = cellData[indexPath.section].trackers[indexPath.row]
-        
+        let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
         cell.delegate = self
         
-        let isComletedToday = isTrackerCompletedToday(id: tracker.id)
-        let completedDays = trackerRecords.filter { $0.trackerId == tracker.id }.count
+        let isCompletedToday = TrackerRecordStore.shared.isCompleted(trackerId: tracker.id, on: trackerDatePicker.date)
+        let completedDays = TrackerRecordStore.shared.completedDaysCount(trackerId: tracker.id)
+
         
         cell.configure(
             with: tracker,
-            isComletedToday: isComletedToday,
+            isComletedToday: isCompletedToday,
             comletedDays: completedDays)
         
         cell.prepareForReuse()
         return cell
-    }
-    
-    private func isTrackerCompletedToday(id: UUID) -> Bool {
-        trackerRecords.contains { trackerRecord in
-            isSameTracker(trackerRecord: trackerRecord, id: id)
-        }
-    }
-    
-    private func isSameTracker(trackerRecord: TrackerRecord, id: UUID) -> Bool {
-        let isSameDay = Calendar.current.isDate(trackerRecord.date, inSameDayAs: trackerDatePicker.date)
-        return trackerRecord.trackerId == id && isSameDay
     }
 }
 
@@ -339,17 +353,52 @@ extension TrackersViewController: TrackerCellDelegate {
             return
         }
         
-        trackerRecords.append(trackerRecord)
-        collectionView.reloadItems(at: [indexPath])
+        do {
+            try TrackerRecordStore.shared.addNewTrackerRecord(trackerRecord)
+            collectionView.reloadItems(at: [indexPath])
+        } catch {
+            print("❌ Нельзя добавить запись в будущем или произошла ошибка: \(error)")
+        }
     }
     
     func uncompleteTracker(id: UUID, in cell: TrackerCell) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         
-        trackerRecords.removeAll { trackerRecord in
-            isSameTracker(trackerRecord: trackerRecord, id: id)
-        }
+        TrackerRecordStore.shared.removeRecords(for: id, on: trackerDatePicker.date)
         
         collectionView.reloadItems(at: [indexPath])
+    }
+}
+
+// MARK: - TrackerStoreDelegate
+extension TrackersViewController: TrackerStoreDelegate {
+    func trackerStoreDidChangeContent() {
+        DispatchQueue.main.async { [weak self] in
+            self?.reloadAllDataFromStores()
+        }
+    }
+}
+
+// MARK: - TrackerCategoryStoreDelegate
+extension TrackersViewController: TrackerCategoryStoreDelegate {
+    func trackerCategoryStoreDidChangeContent() {
+        DispatchQueue.main.async { [weak self] in
+            self?.reloadAllDataFromStores()
+        }
+    }
+}
+
+//MARK: - TrackerRecordStoreDelegate
+extension TrackersViewController: TrackerRecordStoreDelegate {
+    func trackerRecordStoreDidChangeContent() {
+        do {
+            trackerRecords = try TrackerRecordStore.shared.fetchTrackerRecords()
+        } catch {
+            print("❌ Ошибка при фетче записей: \(error)")
+        }
+        
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
     }
 }

@@ -92,20 +92,22 @@ final class ScheduleViewController: UIViewController {
     }
     
     private func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        tableView.isScrollEnabled = false
+        
+        tableView.register(WeekDayCell.self, forCellReuseIdentifier: WeekDayCell.identifier)
+        
+        tableView.layer.cornerRadius = 16
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: scheduleTitleLabel.bottomAnchor, constant: 30),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             tableView.heightAnchor.constraint(equalToConstant: 525)
         ])
-        
-        tableView.delegate = self
-        tableView.dataSource = self
-        
-        tableView.register(WeekDayCell.self, forCellReuseIdentifier: WeekDayCell.identifier)
-        
-        tableView.layer.cornerRadius = 16
-        tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
     }
 }
 // MARK: - Extensions

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		093ACA702EB231ED0029AA69 /* OnboardingScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093ACA6F2EB231ED0029AA69 /* OnboardingScreenViewController.swift */; };
+		093ACA752EB239340029AA69 /* OnboardPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093ACA742EB239340029AA69 /* OnboardPageViewController.swift */; };
 		094318C42E367A9600F4D094 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094318C32E367A9600F4D094 /* AppDelegate.swift */; };
 		094318C62E367A9600F4D094 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094318C52E367A9600F4D094 /* SceneDelegate.swift */; };
 		094318C82E367A9600F4D094 /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094318C72E367A9600F4D094 /* TrackersViewController.swift */; };
@@ -34,6 +36,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		093ACA6F2EB231ED0029AA69 /* OnboardingScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreenViewController.swift; sourceTree = "<group>"; };
+		093ACA742EB239340029AA69 /* OnboardPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardPageViewController.swift; sourceTree = "<group>"; };
 		094318C02E367A9600F4D094 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		094318C32E367A9600F4D094 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		094318C52E367A9600F4D094 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -73,6 +77,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		093ACA712EB232A10029AA69 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				093ACA6F2EB231ED0029AA69 /* OnboardingScreenViewController.swift */,
+				093ACA742EB239340029AA69 /* OnboardPageViewController.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		094318B72E367A9600F4D094 = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +108,7 @@
 			children = (
 				094318C32E367A9600F4D094 /* AppDelegate.swift */,
 				094318C52E367A9600F4D094 /* SceneDelegate.swift */,
+				093ACA712EB232A10029AA69 /* Onboarding */,
 				09E540ED2E6857B100442164 /* CoreData */,
 				094318D72E36BE3500F4D094 /* MainScreen */,
 				094318CC2E367A9800F4D094 /* Assets.xcassets */,
@@ -276,6 +290,7 @@
 				09E540E82E68578C00442164 /* TrackerStore.swift in Sources */,
 				09E5406D2E4693BA00442164 /* TrackerStructures.swift in Sources */,
 				09E540EA2E68579800442164 /* TrackerCategoryStore.swift in Sources */,
+				093ACA702EB231ED0029AA69 /* OnboardingScreenViewController.swift in Sources */,
 				09E540842E5B534200442164 /* HabitHeader.swift in Sources */,
 				09E540D22E5DCB8E00442164 /* CoreDataManager.swift in Sources */,
 				094318C82E367A9600F4D094 /* TrackersViewController.swift in Sources */,
@@ -289,6 +304,7 @@
 				094318DB2E37A63C00F4D094 /* StatisticViewController.swift in Sources */,
 				09E540822E5B4C4000442164 /* ColorCell.swift in Sources */,
 				09E540EC2E6857A200442164 /* TrackerRecordStore.swift in Sources */,
+				093ACA752EB239340029AA69 /* OnboardPageViewController.swift in Sources */,
 				09E540732E4CFB2E00442164 /* TableCellForCreateHabbit.swift in Sources */,
 				09E540772E4E133600442164 /* WeekDayCell.swift in Sources */,
 				09E5407E2E59EFBC00442164 /* EmojiCell.swift in Sources */,

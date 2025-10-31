@@ -32,44 +32,7 @@ final class TrackerCategoryStore: NSObject {
             return nil
         }
     }
-    
-//    func addTrackerCategory(_ trackerCategory: TrackerCategory) {
-//        if let existingCategory = fetchCategoryEntity(withTitle: trackerCategory.title) {
-//            for tracker in trackerCategory.trackers {
-//                let trackerExists = (existingCategory.trackers as? Set<TrackerCoreData>)?.contains(where: { $0.id == tracker.id }) ?? false
-//                if trackerExists { continue }
-//                
-//                let trackerCD = TrackerCoreData(context: context)
-//                trackerCD.id = tracker.id
-//                trackerCD.title = tracker.title
-//                trackerCD.emoji = tracker.emoji
-//                trackerCD.scheduleDays = tracker.schedule
-//                let hex = UIColorMarshalling.hexString(from: tracker.color) ?? "#FFFFFF"
-//                trackerCD.color = hex
-//                
-//                trackerCD.category = existingCategory
-//                existingCategory.addToTrackers(trackerCD)
-//            }
-//        } else {
-//            let categoryCD = TrackerCategoryCoreData(context: context)
-//            categoryCD.title = trackerCategory.title
-//            
-//            for tracker in trackerCategory.trackers {
-//                let trackerCD = TrackerCoreData(context: context)
-//                trackerCD.id = tracker.id
-//                trackerCD.title = tracker.title
-//                trackerCD.emoji = tracker.emoji
-//                trackerCD.scheduleDays = tracker.schedule
-//                let hex = UIColorMarshalling.hexString(from: tracker.color) ?? "#FFFFFF"
-//                trackerCD.color = hex
-//                
-//                trackerCD.category = categoryCD
-//                categoryCD.addToTrackers(trackerCD)
-//            }
-//        }
-//        
-//        saveContext()
-//    }
+
     func addTrackerCategory(_ trackerCategory: TrackerCategory) {
         if let existingCategory = fetchCategoryEntity(withTitle: trackerCategory.title) {
             addTrackers(to: existingCategory, from: trackerCategory)

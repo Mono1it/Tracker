@@ -4,12 +4,13 @@ protocol HabitViewControllerDelegate: AnyObject {
     func habbitViewController(_ controller: CreateHabitModalViewController, didCreate tracker: Tracker, inCategory category: String)
 }
 
-final class CreateHabitModalViewController: UIViewController, UITextFieldDelegate, ScheduleViewControllerDelegate {
+final class CreateHabitModalViewController: UIViewController, UITextFieldDelegate, ScheduleViewControllerDelegate, DidSelectCategoryDelegate {
     
     weak var delegate: HabitViewControllerDelegate?
+    weak var categoryDelegate: DidSelectCategoryDelegate?
     
     //MARK: - Tracker Elements
-    private lazy var categoryTitle: String = "Важное"
+    private lazy var categoryTitle: String = ""
     private var trackerName: String?
     private var trackerEmoji: String?
     private var trackerColor: UIColor?
@@ -37,7 +38,7 @@ final class CreateHabitModalViewController: UIViewController, UITextFieldDelegat
     
     // Данные для ячеек (title, subtitle)
     var cells: [(title: String, subtitle: String?)] = [
-        ("Категория", "Важное"),
+        ("Категория", nil),
         ("Расписание", nil)
     ]
     
@@ -181,9 +182,17 @@ final class CreateHabitModalViewController: UIViewController, UITextFieldDelegat
         updateCreateButton()
     }
     
-    private func openCreateHabbitModalWindow() {
+    private func openCreateScheduleModalWindow() {
         let modalVC = ScheduleViewController()
         modalVC.delegate = self
+        modalVC.modalPresentationStyle = .automatic
+        modalVC.modalTransitionStyle = .coverVertical
+        present(modalVC, animated: true)
+    }
+    
+    private func openCreateCategoryModalWindow() {
+        let modalVC = CategoryViewController()
+        modalVC.categoryDelegat = self
         modalVC.modalPresentationStyle = .automatic
         modalVC.modalTransitionStyle = .coverVertical
         present(modalVC, animated: true)
@@ -317,6 +326,15 @@ final class CreateHabitModalViewController: UIViewController, UITextFieldDelegat
         tableView.reloadData()
     }
     
+    func didSelectCategory(category: String) {
+        print("Выбранная категория: \(category)")
+        categoryTitle = category
+        let subtitle: String = category
+        
+        updateCreateButton()
+        cells[0].subtitle = subtitle.isEmpty ? nil : subtitle
+        tableView.reloadData()
+    }
 }
 
 // MARK: - CreateHabitModalViewController extension
@@ -344,7 +362,11 @@ extension CreateHabitModalViewController: UITableViewDataSource, UITableViewDele
         tableView.deselectRow(at: indexPath, animated: true)
         print("Нажали на: \(cells[indexPath.row].title)")
         if cells[indexPath.row].title == "Расписание" {
-            openCreateHabbitModalWindow()
+            openCreateScheduleModalWindow()
+        }
+        
+        if cells[indexPath.row].title == "Категория" {
+            openCreateCategoryModalWindow()
         }
     }
     

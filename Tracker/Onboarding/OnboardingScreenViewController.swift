@@ -36,8 +36,6 @@ class OnboardingScreenViewController: UIPageViewController {
         return pageControll
     }()
     
-
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,7 +45,6 @@ class OnboardingScreenViewController: UIPageViewController {
         if let first = pages.first {
             setViewControllers([first], direction: .forward, animated: true)
         }
-        
         setupPageControll()
     }
     
@@ -59,19 +56,15 @@ class OnboardingScreenViewController: UIPageViewController {
             pageControll.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
-    
-    
 }
 
 extension OnboardingScreenViewController: UIPageViewControllerDataSource {
-    
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let viewControllerIndex = pages.firstIndex(of: viewController) else { return nil }
         
         let previousIndex = viewControllerIndex - 1
         
         return previousIndex >= 0 ? pages[previousIndex] : pages.last
-
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
@@ -81,7 +74,6 @@ extension OnboardingScreenViewController: UIPageViewControllerDataSource {
         
         return nextIndex < pages.count ? pages[nextIndex] : pages.first
     }
-    
 }
 
 extension OnboardingScreenViewController: UIPageViewControllerDelegate {
@@ -93,6 +85,4 @@ extension OnboardingScreenViewController: UIPageViewControllerDelegate {
             pageControll.currentPage = currentIndex
         }
     }
-    
 }
-

@@ -12,6 +12,7 @@
 		093ACA772EB28E990029AA69 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093ACA762EB28E990029AA69 /* CategoryViewController.swift */; };
 		093ACA792EB296290029AA69 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093ACA782EB296290029AA69 /* CategoryCell.swift */; };
 		093ACB0B2EB3AA1B0029AA69 /* CreateCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093ACB0A2EB3AA1B0029AA69 /* CreateCategoryViewController.swift */; };
+		093ACB672EB558000029AA69 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093ACB662EB558000029AA69 /* CategoryViewModel.swift */; };
 		094318C42E367A9600F4D094 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094318C32E367A9600F4D094 /* AppDelegate.swift */; };
 		094318C62E367A9600F4D094 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094318C52E367A9600F4D094 /* SceneDelegate.swift */; };
 		094318C82E367A9600F4D094 /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094318C72E367A9600F4D094 /* TrackersViewController.swift */; };
@@ -44,6 +45,7 @@
 		093ACA762EB28E990029AA69 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		093ACA782EB296290029AA69 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		093ACB0A2EB3AA1B0029AA69 /* CreateCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCategoryViewController.swift; sourceTree = "<group>"; };
+		093ACB662EB558000029AA69 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
 		094318C02E367A9600F4D094 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		094318C32E367A9600F4D094 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		094318C52E367A9600F4D094 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				093ACA762EB28E990029AA69 /* CategoryViewController.swift */,
+				093ACB662EB558000029AA69 /* CategoryViewModel.swift */,
 				093ACB0A2EB3AA1B0029AA69 /* CreateCategoryViewController.swift */,
 				093ACA782EB296290029AA69 /* CategoryCell.swift */,
 			);
@@ -310,6 +313,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				093ACB672EB558000029AA69 /* CategoryViewModel.swift in Sources */,
 				09E540712E4BCB0D00442164 /* CreateHabitModalViewController.swift in Sources */,
 				09E5407B2E51007D00442164 /* TrackerCategoryHeader.swift in Sources */,
 				09E540E82E68578C00442164 /* TrackerStore.swift in Sources */,

@@ -191,11 +191,12 @@ final class CreateHabitModalViewController: UIViewController, UITextFieldDelegat
     }
     
     private func openCreateCategoryModalWindow() {
-        let modalVC = CategoryViewController()
-        modalVC.categoryDelegat = self
-        modalVC.modalPresentationStyle = .automatic
-        modalVC.modalTransitionStyle = .coverVertical
-        present(modalVC, animated: true)
+        let createCategoryVM = CategoryViewModel()
+        let createCategoryVC = CategoryViewController(viewModel: createCategoryVM, selectedCategory: categoryTitle)
+        createCategoryVC.categoryDelegate = self
+        createCategoryVC.modalPresentationStyle = .automatic
+        createCategoryVC.modalTransitionStyle = .coverVertical
+        present(createCategoryVC, animated: true)
     }
     
     private func updateCreateButton() {

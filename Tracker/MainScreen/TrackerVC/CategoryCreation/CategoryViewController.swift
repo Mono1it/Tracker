@@ -1,23 +1,30 @@
 import Foundation
 import UIKit
 
-protocol CategoryViewControllerDelegate: AnyObject {
-    
-}
-
 protocol DidSelectCategoryDelegate: AnyObject {
     func didSelectCategory(category: String)
 }
 
 final class CategoryViewController: UIViewController {
     
-    weak var nameDelegate: CategoryViewControllerDelegate?
-    weak var categoryDelegat: DidSelectCategoryDelegate?
+    weak var categoryDelegate: DidSelectCategoryDelegate?
     
+    private var viewModel: CategoryViewModel
+    
+    //MARK: - Data
     private var categoryName: String = ""
-    private var categories: [TrackerCategoryCoreData] = []
-    private var selectedCategory: TrackerCategoryCoreData?
     private var tableViewHeightConstraint: NSLayoutConstraint?
+    
+    
+    init(viewModel: CategoryViewModel, selectedCategory: String) {
+        self.viewModel = viewModel
+        self.categoryName = selectedCategory
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
     
     //MARK: - Text Of UI Elements
     private let categoryTitleText = "Категория"
@@ -87,9 +94,8 @@ final class CategoryViewController: UIViewController {
         setupTableViewAndScrollView()
         setupStarQuestion()
         
-        loadCategories()
-        TrackerCategoryStore.shared.delegate = self
-        TrackerCategoryStore.shared.startObservingChanges()
+        bind()
+        viewModel.loadCategories()
     }
     
     //MARK: - Selector actions
@@ -126,8 +132,6 @@ final class CategoryViewController: UIViewController {
         categoryTableView.layer.masksToBounds = true
         categoryTableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         
-        // Высота таблицы
-        tableViewHeightConstraint = categoryTableView.heightAnchor.constraint(equalToConstant: CGFloat(75 * categories.count))
         tableViewHeightConstraint?.isActive = true
         
         NSLayoutConstraint.activate([
@@ -147,6 +151,14 @@ final class CategoryViewController: UIViewController {
         ])
     }
     
+    func setupTableHeight(categories: [TrackerCategoryCoreData]) {
+        // Высота таблицы
+        tableViewHeightConstraint?.isActive = false
+        tableViewHeightConstraint = categoryTableView.heightAnchor.constraint(equalToConstant: CGFloat(75 * categories.count))
+        tableViewHeightConstraint?.isActive = true
+        view.layoutIfNeeded()
+    }
+    
     private func setupAddButton() {
         view.addSubview(addButton)
         
@@ -159,7 +171,6 @@ final class CategoryViewController: UIViewController {
     }
     
     private func setupStarQuestion() {
-        showStarLogo()
         view.addSubview(starImage)
         view.addSubview(startQuestion)
         
@@ -173,30 +184,28 @@ final class CategoryViewController: UIViewController {
         ])
     }
     
-    //MARK: - Model
-    private func showStarLogo() {
-        let isEmpty = categories.isEmpty
+    private func showStarLogo(isEmpty: Bool) {
         starImage.isHidden = !isEmpty
         startQuestion.isHidden = !isEmpty
     }
     
-    private func loadCategories() {
-        categories = TrackerCategoryStore.shared.categoriesObjects  // Загрузка из CoreData
-        showStarLogo()
-        categoryTableView.reloadData()
-        updateTableViewHeight()
+    //MARK: - Model
+    private func bind() {
+        
+        viewModel.onEmptyStateChanged = { [weak self] isEmpty in
+            self?.showStarLogo(isEmpty: isEmpty)
+        }
+        
+        viewModel.onCategoriesChanged = { [weak self] categories in
+            self?.setupTableHeight(categories: categories)
+            self?.categoryTableView.reloadData()
+        }
     }
-    
-    private func updateTableViewHeight() {
-        tableViewHeightConstraint?.constant = CGFloat(75 * categories.count)  // Динамическая высота
-        view.layoutIfNeeded()
-    }
-    
 }
 
 extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        categories.count
+        viewModel.categories.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -204,9 +213,9 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let category = categories[indexPath.row]
-        let isSelected = category.title == selectedCategory?.title
-        cell.configure(title: category.title ?? "Без названия", isSelected: isSelected)  // Передаем флаг выбора
+        viewModel.selectCategory(at: indexPath.row)
+        let isSelected = viewModel.selectedCategory?.title == categoryName
+        cell.configure(title: viewModel.selectedCategory?.title ?? "Без названия", isSelected: isSelected)
         
         cell.backgroundColor = .ypBackground
         
@@ -218,31 +227,23 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let categoryName = categories[indexPath.row]
         
-        selectedCategory = categoryName // Для отображения галочки
+        viewModel.selectCategory(at: indexPath.row)
+        let selectedCategory = viewModel.selectedCategory
+        
         categoryTableView.reloadData()
         
-        categoryDelegat?.didSelectCategory(category: categoryName.title ?? "Важное")
-        print("Категория \(categoryName) выбрана")
+        categoryDelegate?.didSelectCategory(category: selectedCategory?.title ?? "Важное")
+        print("Категория \(viewModel.selectedCategory?.title ?? "Важное") выбрана")
+        
         dismiss(animated: true)
     }
 }
 
 extension CategoryViewController: CreateCategoryDelegate {
     func createCategoryViewController(_ controller: CreateCategoryViewController, didCreate category: String) {
-        
-        let newTrackerCategory = TrackerCategory(title: category, trackers: [])
-        TrackerCategoryStore.shared.addTrackerCategory(newTrackerCategory)
-        
-        dismiss(animated: true)
-    }
-}
 
-extension CategoryViewController: TrackerCategoryStoreDelegate {
-    func trackerCategoryStoreDidChangeContent() {
-        DispatchQueue.main.async { [weak self] in
-            self?.loadCategories()  // Автоматическое обновление при изменениях в CoreData
-        }
+        viewModel.addCategory(title: category)
+        self.categoryName = category
     }
 }

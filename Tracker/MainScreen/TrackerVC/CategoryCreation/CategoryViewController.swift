@@ -32,7 +32,7 @@ final class CategoryViewController: UIViewController {
     private let startQuestionText = "Привычки и события можно \nобъединить по смыслу"
     
     //MARK: - UIElements
-    lazy var titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = categoryTitleText
         label.textColor = .ypBlack
@@ -42,14 +42,14 @@ final class CategoryViewController: UIViewController {
         return label
     }()
     
-    lazy var categoryTableView: UITableView = {
+    private lazy var categoryTableView: UITableView = {
         let table = UITableView(frame: .zero, style: .plain)
         table.bounces = false
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
     
-    lazy var addButton: UIButton = {
+    private lazy var addButton: UIButton = {
         let button = UIButton()
         button.setTitle(addButtonText, for: .normal)
         button.setTitleColor(.ypWhite, for: .normal)

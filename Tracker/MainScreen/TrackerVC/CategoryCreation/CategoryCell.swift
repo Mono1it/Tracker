@@ -1,6 +1,6 @@
 import UIKit
 
-class CategoryCell: UITableViewCell {
+final class CategoryCell: UITableViewCell {
     
     static let identifier: String = "CategoryCell"
     

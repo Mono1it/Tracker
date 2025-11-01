@@ -1,7 +1,8 @@
-import Foundation
 import UIKit
 
 class OnboardingScreenViewController: UIPageViewController {
+    
+    var onFinish: (() -> Void)?
     
     init() {
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal)
@@ -16,11 +17,16 @@ class OnboardingScreenViewController: UIPageViewController {
             imageName: "OnboardBackground1",
             labelText: "Отслеживайте только то, что хотите"
         )
-        
+        page1.onFinish = {[weak self] in
+            self?.onFinish?()
+        }
         let page2 = OnboardPageViewController(
             imageName: "OnboardBackground2",
             labelText: "Даже если это \nне литры воды и йога"
         )
+        page2.onFinish = {[weak self] in
+            self?.onFinish?()
+        }
         return [page1, page2]
     }()
     

@@ -4,7 +4,7 @@ protocol CreateCategoryDelegate: AnyObject {
     func createCategoryViewController(_ controller: CreateCategoryViewController, didCreate category: String)
 }
 
-final class CreateCategoryViewController: UIViewController, UITextFieldDelegate {
+final class CreateCategoryViewController: UIViewController {
     
     weak var delegate: CreateCategoryDelegate?
     
@@ -82,7 +82,7 @@ final class CreateCategoryViewController: UIViewController, UITextFieldDelegate 
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        view.backgroundColor = .ypWhite
         setupTrackerTitle()
         setupTextFieldStack()
         setupCreateButton()
@@ -92,10 +92,10 @@ final class CreateCategoryViewController: UIViewController, UITextFieldDelegate 
     //MARK: - Button Action
     @objc private func createButtonTapped() {
         guard let categoryName = categotyName?.trimmingCharacters(in: .whitespacesAndNewlines),
-                  !categoryName.isEmpty else {
-                return
-            }
-
+              !categoryName.isEmpty else {
+            return
+        }
+        
         delegate?.createCategoryViewController(self, didCreate: categoryName)
         dismiss(animated: true)
     }
@@ -107,7 +107,7 @@ final class CreateCategoryViewController: UIViewController, UITextFieldDelegate 
     
     private func updateCreateButton() {
         let hasName = !(categotyName?.trimmingCharacters(in: .whitespaces).isEmpty ?? true)
-
+        
         let isButtonEnabled = hasName
         createButton.isEnabled = isButtonEnabled
         createButton.backgroundColor = isButtonEnabled ? .ypBlack : .ypGray
@@ -154,7 +154,8 @@ final class CreateCategoryViewController: UIViewController, UITextFieldDelegate 
             createButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
         ])
     }
-    
+}
+extension CreateCategoryViewController: UITextFieldDelegate {
     // MARK: - Delegate Methods
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let currentText = textField.text ?? ""
@@ -165,3 +166,4 @@ final class CreateCategoryViewController: UIViewController, UITextFieldDelegate 
         return updatedText.count <= limitLabelText
     }
 }
+

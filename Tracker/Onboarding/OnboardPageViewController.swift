@@ -1,10 +1,12 @@
 import Foundation
 import UIKit
 
-class OnboardPageViewController: UIViewController {
+final class OnboardPageViewController: UIViewController {
     private let imageView = UIImageView()
     
-    lazy var nextButton: UIButton = {
+    var onFinish: (() -> Void)?
+    
+    private lazy var nextButton: UIButton = {
         let button = UIButton()
         button.setTitle("Вот это технологии!", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16)
@@ -16,7 +18,7 @@ class OnboardPageViewController: UIViewController {
         return button
     }()
     
-    lazy var helloLabel: UILabel = {
+    private lazy var helloLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 32, weight: .bold)
         label.backgroundColor = .clear
@@ -81,13 +83,6 @@ class OnboardPageViewController: UIViewController {
     }
     
     @objc private func nextButtonTapped() {
-        UserDefaults.standard.set(true, forKey: "hasSeenOnboarding")
-        
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let window = windowScene.windows.first else { return }
-        
-        let mainVC = TabBarController()
-        window.rootViewController = mainVC
-        UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: nil)
+        onFinish?()
     }
 }

@@ -5,7 +5,7 @@ protocol TrackerCellDelegate: AnyObject {
     func uncompleteTracker(id: UUID, in cell: TrackerCell)
 }
 
-class TrackerCell: UICollectionViewCell {
+final class TrackerCell: UICollectionViewCell {
     
     weak var delegate: TrackerCellDelegate?
     

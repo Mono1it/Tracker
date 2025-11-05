@@ -1,6 +1,6 @@
 import UIKit
 
-class TrackerCategoryHeader: UICollectionReusableView {
+final class TrackerCategoryHeader: UICollectionReusableView {
     static let identifier = "TrackerCategoryHeader"
     
     private let titleLabel: UILabel = {

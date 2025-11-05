@@ -1,6 +1,6 @@
 import UIKit
 
-class TrackersViewController: UIViewController, HabitViewControllerDelegate {
+final class TrackersViewController: UIViewController, HabitViewControllerDelegate {
     //MARK: - Variables
     private var visibleCategories: [TrackerCategory] = []
     private var categories: [TrackerCategory] = []

@@ -1,13 +1,13 @@
 import UIKit
 
-class WeekDayCell: UITableViewCell {
+final class WeekDayCell: UITableViewCell {
     
     static let identifier: String = "WeekDayCell"
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        label.textColor = .black
+        label.textColor = .ypBlack
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

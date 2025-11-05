@@ -100,7 +100,6 @@
 				093ACA762EB28E990029AA69 /* CategoryViewController.swift */,
 				093ACB662EB558000029AA69 /* CategoryViewModel.swift */,
 				093ACB0A2EB3AA1B0029AA69 /* CreateCategoryViewController.swift */,
-				093ACA782EB296290029AA69 /* CategoryCell.swift */,
 			);
 			path = CategoryCreation;
 			sourceTree = "<group>";
@@ -155,15 +154,31 @@
 			path = MainScreen;
 			sourceTree = "<group>";
 		};
-		09E540D32E5DCCFC00442164 /* TrackerVC */ = {
+		098EC4E12EBA58AC000C6C2A /* Category */ = {
 			isa = PBXGroup;
 			children = (
-				09E540D62E5DCD8A00442164 /* Structures */,
-				094318C72E367A9600F4D094 /* TrackersViewController.swift */,
+				093ACA782EB296290029AA69 /* CategoryCell.swift */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		098EC4F82EBB8492000C6C2A /* CreateHabbit */ = {
+			isa = PBXGroup;
+			children = (
 				09E540702E4BCB0D00442164 /* CreateHabitModalViewController.swift */,
 				093ACB5C2EB552D10029AA69 /* ScheduleCreation */,
 				093ACB5B2EB552BB0029AA69 /* CategoryCreation */,
-				09E540D52E5DCD3800442164 /* Helpers */,
+			);
+			path = CreateHabbit;
+			sourceTree = "<group>";
+		};
+		09E540D32E5DCCFC00442164 /* TrackerVC */ = {
+			isa = PBXGroup;
+			children = (
+				094318C72E367A9600F4D094 /* TrackersViewController.swift */,
+				098EC4F82EBB8492000C6C2A /* CreateHabbit */,
+				09E540D62E5DCD8A00442164 /* Structures */,
+				09E540D52E5DCD3800442164 /* Cells + Helpers */,
 			);
 			path = TrackerVC;
 			sourceTree = "<group>";
@@ -176,14 +191,15 @@
 			path = StatisticVC;
 			sourceTree = "<group>";
 		};
-		09E540D52E5DCD3800442164 /* Helpers */ = {
+		09E540D52E5DCD3800442164 /* Cells + Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				098EC4E12EBA58AC000C6C2A /* Category */,
+				09E540D92E5DCE5000442164 /* Schedule */,
 				09E540D72E5DCE1200442164 /* Tracker */,
 				09E540D82E5DCE1D00442164 /* Habit */,
-				09E540D92E5DCE5000442164 /* Schedule */,
 			);
-			path = Helpers;
+			path = "Cells + Helpers";
 			sourceTree = "<group>";
 		};
 		09E540D62E5DCD8A00442164 /* Structures */ = {

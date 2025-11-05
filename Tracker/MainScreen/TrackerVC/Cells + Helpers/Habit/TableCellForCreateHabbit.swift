@@ -1,13 +1,13 @@
 import UIKit
 
-class CustomTableViewCell: UITableViewCell {
+final class CustomTableViewCell: UITableViewCell {
     
     static let identifier: String = "CustomCell"
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        label.textColor = .black
+        label.textColor = .ypBlack
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

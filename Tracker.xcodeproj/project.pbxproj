@@ -20,6 +20,8 @@
 		094318D02E367A9800F4D094 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 094318CE2E367A9800F4D094 /* LaunchScreen.storyboard */; };
 		094318D92E37A54000F4D094 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094318D82E37A54000F4D094 /* TabBarController.swift */; };
 		094318DB2E37A63C00F4D094 /* StatisticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094318DA2E37A63C00F4D094 /* StatisticViewController.swift */; };
+		09DEA1B52EBB9C2E00C1FDE9 /* FilterModalViewController 2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEA1B42EBB9C2E00C1FDE9 /* FilterModalViewController 2.swift */; };
+		09DEA1B82EBBA2C400C1FDE9 /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEA1B72EBBA2C400C1FDE9 /* FilterCell.swift */; };
 		09E5406D2E4693BA00442164 /* TrackerStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E5406C2E4693BA00442164 /* TrackerStructures.swift */; };
 		09E540712E4BCB0D00442164 /* CreateHabitModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E540702E4BCB0D00442164 /* CreateHabitModalViewController.swift */; };
 		09E540732E4CFB2E00442164 /* TableCellForCreateHabbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E540722E4CFB2E00442164 /* TableCellForCreateHabbit.swift */; };
@@ -55,6 +57,8 @@
 		094318D12E367A9800F4D094 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		094318D82E37A54000F4D094 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		094318DA2E37A63C00F4D094 /* StatisticViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticViewController.swift; sourceTree = "<group>"; };
+		09DEA1B42EBB9C2E00C1FDE9 /* FilterModalViewController 2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FilterModalViewController 2.swift"; sourceTree = "<group>"; };
+		09DEA1B72EBBA2C400C1FDE9 /* FilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
 		09E5406C2E4693BA00442164 /* TrackerStructures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerStructures.swift; sourceTree = "<group>"; };
 		09E540702E4BCB0D00442164 /* CreateHabitModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateHabitModalViewController.swift; sourceTree = "<group>"; };
 		09E540722E4CFB2E00442164 /* TableCellForCreateHabbit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCellForCreateHabbit.swift; sourceTree = "<group>"; };
@@ -172,10 +176,19 @@
 			path = CreateHabbit;
 			sourceTree = "<group>";
 		};
+		09DEA1B62EBBA2B300C1FDE9 /* Filter */ = {
+			isa = PBXGroup;
+			children = (
+				09DEA1B72EBBA2C400C1FDE9 /* FilterCell.swift */,
+			);
+			path = Filter;
+			sourceTree = "<group>";
+		};
 		09E540D32E5DCCFC00442164 /* TrackerVC */ = {
 			isa = PBXGroup;
 			children = (
 				094318C72E367A9600F4D094 /* TrackersViewController.swift */,
+				09DEA1B42EBB9C2E00C1FDE9 /* FilterModalViewController 2.swift */,
 				098EC4F82EBB8492000C6C2A /* CreateHabbit */,
 				09E540D62E5DCD8A00442164 /* Structures */,
 				09E540D52E5DCD3800442164 /* Cells + Helpers */,
@@ -194,6 +207,7 @@
 		09E540D52E5DCD3800442164 /* Cells + Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				09DEA1B62EBBA2B300C1FDE9 /* Filter */,
 				098EC4E12EBA58AC000C6C2A /* Category */,
 				09E540D92E5DCE5000442164 /* Schedule */,
 				09E540D72E5DCE1200442164 /* Tracker */,
@@ -340,6 +354,7 @@
 				09E540D22E5DCB8E00442164 /* CoreDataManager.swift in Sources */,
 				094318C82E367A9600F4D094 /* TrackersViewController.swift in Sources */,
 				09E540752E4E0D1E00442164 /* ScheduleViewController.swift in Sources */,
+				09DEA1B52EBB9C2E00C1FDE9 /* FilterModalViewController 2.swift in Sources */,
 				094318D92E37A54000F4D094 /* TabBarController.swift in Sources */,
 				09E540F22E685B6300442164 /* DaysValueTransformer.swift in Sources */,
 				09E540792E4F5E5A00442164 /* TrackerCell.swift in Sources */,
@@ -347,6 +362,7 @@
 				09E540AA2E5CABBC00442164 /* TrackerModel.xcdatamodeld in Sources */,
 				094318C42E367A9600F4D094 /* AppDelegate.swift in Sources */,
 				09E540EF2E68594B00442164 /* UIColorMarshalling.swift in Sources */,
+				09DEA1B82EBBA2C400C1FDE9 /* FilterCell.swift in Sources */,
 				093ACB0B2EB3AA1B0029AA69 /* CreateCategoryViewController.swift in Sources */,
 				094318DB2E37A63C00F4D094 /* StatisticViewController.swift in Sources */,
 				09E540822E5B4C4000442164 /* ColorCell.swift in Sources */,

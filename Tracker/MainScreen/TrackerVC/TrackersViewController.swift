@@ -6,11 +6,15 @@ final class TrackersViewController: UIViewController, HabitViewControllerDelegat
     private var categories: [TrackerCategory] = []
     private var trackerRecords: [TrackerRecord] = []
     private var currentDate: Date = Date()
+    private var currentFilter: filtersEnum = .all
+    private var trackersOfDay: [Tracker] = []
     
     //MARK: - Variables Of UI Elements
     private var trackerTitleText = "Трекеры"
     private var startQuestionText = "Что будем отслеживать?"
     private var searchbarPlaceholder = "Поиск"
+    private let filterText = "Фильтры"
+    private let notFoundText = "Ничего не найдено"
     
     // MARK: - UI Elements
     private lazy var collectionView: UICollectionView = {
@@ -77,6 +81,35 @@ final class TrackersViewController: UIViewController, HabitViewControllerDelegat
         return searchBar
     }()
     
+    private lazy var filterButton: UIButton = {
+        let button = UIButton()
+        button.setTitle(filterText, for: .normal)
+        button.setTitleColor(.ypWhite, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        
+        button.backgroundColor = .ypBlue
+        button.layer.cornerRadius = 16
+        button.layer.masksToBounds = true
+        
+        button.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    
+    private lazy var notFoundImage: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(resource: .notFound)
+        return image
+    }()
+    
+    private lazy var notFoundLabel: UILabel = {
+        let label = UILabel()
+        label.text = notFoundText
+        label.textColor = UIColor(resource: .ypBlack)
+        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        return label
+    }()
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,6 +130,15 @@ final class TrackersViewController: UIViewController, HabitViewControllerDelegat
         reloadAllDataFromStores()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        let extraBottomInset: CGFloat = 50
+        collectionView.contentInset.bottom = extraBottomInset
+        collectionView.verticalScrollIndicatorInsets.bottom = extraBottomInset
+    }
+    
+    
     private func reloadAllDataFromStores() {
         do {
             categories = try TrackerCategoryStore.shared.fetchCategories()
@@ -104,7 +146,7 @@ final class TrackersViewController: UIViewController, HabitViewControllerDelegat
         } catch {
             print("❌ Ошибка при фетче из Core Data: \(error)")
         }
-
+        
         reloadVisibleCategories()
     }
     
@@ -133,7 +175,7 @@ final class TrackersViewController: UIViewController, HabitViewControllerDelegat
     }
     
     private func setupUI() {
-        view.addSubviews(trackerTitleLabel, addTrackerButton, trackerDatePicker, starImage, startQuestion, searchBarTextField, collectionView)
+        view.addSubviews(trackerTitleLabel, addTrackerButton, trackerDatePicker, starImage, startQuestion, searchBarTextField, collectionView, filterButton, notFoundLabel, notFoundImage)
         view.backgroundColor = .ypWhite
     }
     
@@ -144,6 +186,28 @@ final class TrackersViewController: UIViewController, HabitViewControllerDelegat
         setupSearchBar()
         setupStarQuestion()
         setupCollectionView()
+        setupFilterButton()
+        setupEmptyFilterPlaceholder()
+    }
+    
+    private func setupEmptyFilterPlaceholder() {
+        NSLayoutConstraint.activate([
+            notFoundImage.heightAnchor.constraint(equalToConstant: 80),
+            notFoundImage.widthAnchor.constraint(equalToConstant: 80),
+            notFoundImage.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            notFoundImage.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
+            notFoundLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            notFoundLabel.topAnchor.constraint(equalTo: starImage.bottomAnchor, constant: 8)
+        ])
+    }
+    
+    private func setupFilterButton() {
+        NSLayoutConstraint.activate([
+            filterButton.heightAnchor.constraint(equalToConstant: 50),
+            filterButton.widthAnchor.constraint(equalToConstant: 114),
+            filterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            filterButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -17)
+        ])
     }
     
     private func setupTrackerTitle() {
@@ -219,8 +283,16 @@ final class TrackersViewController: UIViewController, HabitViewControllerDelegat
     
     @objc private func dateChanged() {
         reloadVisibleCategories()
+        reloadPlaceholder()
     }
     
+    @objc private func filterButtonTapped() {
+        let modalVC = FilterModalViewController(currentFilter: self.currentFilter.index)
+        modalVC.delegate = self
+        modalVC.modalPresentationStyle = .automatic
+        modalVC.modalTransitionStyle = .coverVertical
+        present(modalVC, animated: true)
+    }
     //MARK: - Helpers
     private func reloadData() {
         dateChanged()
@@ -230,6 +302,11 @@ final class TrackersViewController: UIViewController, HabitViewControllerDelegat
     private func reloadVisibleCategories() {
         let calendar = Calendar.current
         let filterWeekday = calendar.component(.weekday, from: trackerDatePicker.date)
+        
+        trackersOfDay = categories.flatMap { $0.trackers }.filter { tracker in
+            tracker.schedule.contains { $0.numberValue == filterWeekday }
+        }
+        
         let filterText = (searchBarTextField.text ?? "").lowercased()
         
         visibleCategories = categories.compactMap { category in
@@ -240,7 +317,22 @@ final class TrackersViewController: UIViewController, HabitViewControllerDelegat
                 let textCondition = filterText.isEmpty ||
                 tracker.title.lowercased().contains(filterText)
                 
-                return textCondition && dateCondition
+                let isCompletedToday = TrackerRecordStore.shared.isCompleted(
+                    trackerId: tracker.id,
+                    on: trackerDatePicker.date
+                )
+                
+                let filterCondition: Bool
+                switch currentFilter {
+                case .all, .today:
+                    filterCondition = true
+                case .complete:
+                    filterCondition = isCompletedToday
+                case .uncomplete:
+                    filterCondition = !isCompletedToday
+                }
+                
+                return textCondition && dateCondition && filterCondition
             }
             
             if trackers.isEmpty {
@@ -257,9 +349,39 @@ final class TrackersViewController: UIViewController, HabitViewControllerDelegat
     }
     
     private func reloadPlaceholder() {
-        let isEmpty = visibleCategories.isEmpty
-        starImage.isHidden = !isEmpty
-        startQuestion.isHidden = !isEmpty
+        let noTrackersAtAll = trackersOfDay.isEmpty
+        
+        let filterGaveNothing = !noTrackersAtAll && visibleCategories.isEmpty
+        
+        if noTrackersAtAll {
+            // Показываем "Что будем отслеживать?"
+            starImage.isHidden = false
+            startQuestion.isHidden = false
+            notFoundImage.isHidden = true
+            notFoundLabel.isHidden = true
+            collectionView.isHidden = true
+            filterButton.isHidden = true
+            return
+        }
+        
+        if filterGaveNothing {
+            // Показываем "Ничего не найдено"
+            starImage.isHidden = true
+            startQuestion.isHidden = true
+            notFoundImage.isHidden = false
+            notFoundLabel.isHidden = false
+            collectionView.isHidden = true
+            filterButton.isHidden = false
+            return
+        }
+        
+        // Есть что показать
+        starImage.isHidden = true
+        startQuestion.isHidden = true
+        notFoundImage.isHidden = true
+        notFoundLabel.isHidden = true
+        collectionView.isHidden = false
+        filterButton.isHidden = false
     }
     
 }
@@ -290,7 +412,6 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        reloadData()
         return visibleCategories[section].trackers.count
         
     }
@@ -328,7 +449,6 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout, UICollecti
         
         let isCompletedToday = TrackerRecordStore.shared.isCompleted(trackerId: tracker.id, on: trackerDatePicker.date)
         let completedDays = TrackerRecordStore.shared.completedDaysCount(trackerId: tracker.id)
-
         
         cell.configure(
             with: tracker,
@@ -399,6 +519,20 @@ extension TrackersViewController: TrackerRecordStoreDelegate {
         
         DispatchQueue.main.async {
             self.collectionView.reloadData()
+            self.reloadPlaceholder()
         }
+    }
+}
+
+extension TrackersViewController: DidSelectFilterDelegate {
+    func didSelectFilter(filter: String) {
+        guard let newFilter = filtersEnum(rawValue: filter) else { return }
+        currentFilter = newFilter
+        
+        if newFilter == .today {
+            trackerDatePicker.date = Date()   // переключаем календарь на сегодня
+        }
+        
+        reloadVisibleCategories()
     }
 }

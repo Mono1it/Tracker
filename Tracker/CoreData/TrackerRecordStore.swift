@@ -60,6 +60,22 @@ final class TrackerRecordStore: NSObject {
             }
         }
     
+    func removeAllRecords(for trackerId: UUID) {
+        let request: NSFetchRequest<TrackerRecordCoreData> = TrackerRecordCoreData.fetchRequest()
+        request.predicate = NSPredicate(format: "trackerId == %@", trackerId as CVarArg)
+
+        do {
+            let records = try context.fetch(request)
+            for record in records {
+                context.delete(record)
+            }
+            saveContext()
+            print("🧹 Удалены все записи для трекера \(trackerId)")
+        } catch {
+            print("❌ Ошибка при удалении записей трекера: \(error)")
+        }
+    }
+    
     func fetchTrackerRecords() throws -> [TrackerRecord] {
         let request: NSFetchRequest<TrackerRecordCoreData> = TrackerRecordCoreData.fetchRequest()
         request.sortDescriptors = [

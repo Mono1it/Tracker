@@ -1,6 +1,6 @@
 import UIKit
 
-final class TrackersViewController: UIViewController, HabitViewControllerDelegate {
+final class TrackersViewController: UIViewController, HabitViewControllerDelegate, AlertPresenterDelegate {
     //MARK: - Variables
     private var visibleCategories: [TrackerCategory] = []
     private var categories: [TrackerCategory] = []
@@ -8,6 +8,7 @@ final class TrackersViewController: UIViewController, HabitViewControllerDelegat
     private var currentDate: Date = Date()
     private var currentFilter: filtersEnum = .all
     private var trackersOfDay: [Tracker] = []
+    private lazy var alertPresenter = AlertPresenter(self)
     
     //MARK: - Variables Of UI Elements
     private var trackerTitleText = "Трекеры"
@@ -38,7 +39,7 @@ final class TrackersViewController: UIViewController, HabitViewControllerDelegat
         let button = UIButton.systemButton(
             with: UIImage(resource: .addTrackerButton),
             target: nil,
-            action: #selector(openCreateHabbitModalWindow))
+            action: #selector(openCreateHabitModalWindow))
         button.tintColor = .ypBlack
         return button
     }()
@@ -257,24 +258,28 @@ final class TrackersViewController: UIViewController, HabitViewControllerDelegat
     }
     
     // MARK: - Delegate Methods
-    func habbitViewController(_ controller: CreateHabitModalViewController, didCreate tracker: Tracker, inCategory category: String) {
-        // 1) если сущность категории уже есть в Core Data — добавим трекер туда
+    func habitViewController(_ controller: CreateHabitModalViewController, didCreate tracker: Tracker, inCategory category: String) {
         if let categoryEntity = TrackerCategoryStore.shared.fetchCategoryEntity(withTitle: category) {
             TrackerStore.shared.addTracker(from: tracker, category: categoryEntity)
         } else {
-            // 2) иначе создаём новую категорию вместе с трекером
             let dto = TrackerCategory(title: category, trackers: [tracker])
             TrackerCategoryStore.shared.addTrackerCategory(dto)
         }
-        
+
         reloadAllDataFromStores()
-        
         controller.dismiss(animated: true)
     }
+
+    func habitViewController(_ controller: CreateHabitModalViewController, didEdit tracker: Tracker, inCategory category: String) {
+        TrackerCategoryStore.shared.updateTracker(tracker, in: category)
+        reloadAllDataFromStores()
+        controller.dismiss(animated: true)
+    }
+
     
     //MARK: - Button Action
-    @objc private func openCreateHabbitModalWindow() {
-        let modalVC = CreateHabitModalViewController()
+    @objc private func openCreateHabitModalWindow() {
+        let modalVC = CreateHabitModalViewController(trackerToEdit: nil, category: "")
         modalVC.delegate = self
         modalVC.modalPresentationStyle = .automatic
         modalVC.modalTransitionStyle = .coverVertical
@@ -458,6 +463,57 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout, UICollecti
         cell.prepareForReuse()
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
+        guard indexPaths.count > 0 else {
+            return nil
+        }
+        
+        let indexPath = indexPaths[0]
+        
+        return UIContextMenuConfiguration(actionProvider: { actions in
+            return UIMenu(children: [
+                UIAction(title: "Редактировать") { [weak self] _ in
+                    guard let self else { return }
+                        let tracker = self.visibleCategories[indexPath.section].trackers[indexPath.row]
+                        let category = self.visibleCategories[indexPath.section].title
+
+                        let editVC = CreateHabitModalViewController(trackerToEdit: tracker, category: category)
+                        editVC.delegate = self
+                        editVC.modalPresentationStyle = .automatic
+                        editVC.modalTransitionStyle = .coverVertical
+                        self.present(editVC, animated: true)
+                },
+                UIAction(title: "Удалить", attributes: .destructive) { [weak self] _ in
+                    guard let self else { return }
+                    
+                    let tracker = self.visibleCategories[indexPath.section].trackers[indexPath.row]
+                        
+                        let alertModel = AlertModel(
+                            title: "",
+                            message: "Уверены, что хотите удалить трекер?",
+                            buttonText: "Удалить"
+                        ) { [weak self] in
+                            guard let self = self else { return }
+
+                            // Удаляем записи трекера
+                            TrackerRecordStore.shared.removeAllRecords(for: tracker.id)
+
+                            // Удаляем сам трекер
+                            TrackerCategoryStore.shared.removeTracker(tracker.id)
+
+                            self.reloadAllDataFromStores()
+                        }
+
+                        self.alertPresenter.requestAlertPresenter(model: alertModel)
+                }
+            ])
+        })
+    }
+    func didAlertButtonTouch(alert: UIAlertController?) {
+        print("Трекер удалён")
+    }
+    
 }
 
 //MARK: - TrackerCellDelegate

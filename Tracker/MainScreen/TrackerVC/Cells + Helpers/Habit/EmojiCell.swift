@@ -7,9 +7,9 @@ final class EmojiCell: UICollectionViewCell {
         label.font = UIFont.systemFont(ofSize: 32, weight: .bold)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
-       return label
+        return label
     }()
-
+    
     static let identifier = "EmojiCell"
     
     override init(frame: CGRect) {

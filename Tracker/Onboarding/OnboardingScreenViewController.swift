@@ -34,7 +34,7 @@ class OnboardingScreenViewController: UIPageViewController {
     }()
     
     lazy var pageControll: UIPageControl = {
-       let pageControll = UIPageControl()
+        let pageControll = UIPageControl()
         pageControll.numberOfPages = pages.count
         pageControll.currentPage = 0
         

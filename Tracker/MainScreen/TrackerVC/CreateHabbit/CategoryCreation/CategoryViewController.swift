@@ -242,7 +242,7 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension CategoryViewController: CreateCategoryDelegate {
     func createCategoryViewController(_ controller: CreateCategoryViewController, didCreate category: String) {
-
+        
         viewModel.addCategory(title: category)
         self.categoryName = category
     }

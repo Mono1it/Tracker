@@ -275,17 +275,17 @@ final class TrackersViewController: UIViewController, HabitViewControllerDelegat
             let dto = TrackerCategory(title: category, trackers: [tracker])
             TrackerCategoryStore.shared.addTrackerCategory(dto)
         }
-
+        
         reloadAllDataFromStores()
         controller.dismiss(animated: true)
     }
-
+    
     func habitViewController(_ controller: CreateHabitModalViewController, didEdit tracker: Tracker, inCategory category: String) {
         TrackerCategoryStore.shared.updateTracker(tracker, in: category)
         reloadAllDataFromStores()
         controller.dismiss(animated: true)
     }
-
+    
     
     //MARK: - Button Action
     @objc private func openCreateHabitModalWindow() {
@@ -490,37 +490,37 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout, UICollecti
                 UIAction(title: NSLocalizedString("editAction", comment: "")) { [weak self] _ in
                     guard let self else { return }
                     analyticsService.report(event: "click", screen: "Main", item: "editTracker")
-                        let tracker = self.visibleCategories[indexPath.section].trackers[indexPath.row]
-                        let category = self.visibleCategories[indexPath.section].title
-
-                        let editVC = CreateHabitModalViewController(trackerToEdit: tracker, category: category)
-                        editVC.delegate = self
-                        editVC.modalPresentationStyle = .automatic
-                        editVC.modalTransitionStyle = .coverVertical
-                        self.present(editVC, animated: true)
+                    let tracker = self.visibleCategories[indexPath.section].trackers[indexPath.row]
+                    let category = self.visibleCategories[indexPath.section].title
+                    
+                    let editVC = CreateHabitModalViewController(trackerToEdit: tracker, category: category)
+                    editVC.delegate = self
+                    editVC.modalPresentationStyle = .automatic
+                    editVC.modalTransitionStyle = .coverVertical
+                    self.present(editVC, animated: true)
                 },
                 UIAction(title: NSLocalizedString("deleteAction", comment: ""), attributes: .destructive) { [weak self] _ in
                     guard let self else { return }
                     analyticsService.report(event: "click", screen: "Main", item: "deleteTracker")
                     let tracker = self.visibleCategories[indexPath.section].trackers[indexPath.row]
+                    
+                    let alertModel = AlertModel(
+                        title: "",
+                        message: NSLocalizedString("confirmDeleteMessage", comment: ""),
+                        buttonText: NSLocalizedString("deleteAction", comment: "")
+                    ) { [weak self] in
+                        guard let self = self else { return }
                         
-                        let alertModel = AlertModel(
-                            title: "",
-                            message: NSLocalizedString("confirmDeleteMessage", comment: ""),
-                            buttonText: NSLocalizedString("deleteAction", comment: "")
-                        ) { [weak self] in
-                            guard let self = self else { return }
-
-                            // Удаляем записи трекера
-                            TrackerRecordStore.shared.removeAllRecords(for: tracker.id)
-
-                            // Удаляем сам трекер
-                            TrackerCategoryStore.shared.removeTracker(tracker.id)
-
-                            self.reloadAllDataFromStores()
-                        }
-
-                        self.alertPresenter.requestAlertPresenter(model: alertModel)
+                        // Удаляем записи трекера
+                        TrackerRecordStore.shared.removeAllRecords(for: tracker.id)
+                        
+                        // Удаляем сам трекер
+                        TrackerCategoryStore.shared.removeTracker(tracker.id)
+                        
+                        self.reloadAllDataFromStores()
+                    }
+                    
+                    self.alertPresenter.requestAlertPresenter(model: alertModel)
                 }
             ])
         })

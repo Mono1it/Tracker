@@ -39,5 +39,5 @@ final class CategoryViewModel {
     func selectCategory(at index: Int) {
         selectedCategory = categories[index]
     }
-
+    
 }

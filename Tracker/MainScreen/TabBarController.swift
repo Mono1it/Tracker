@@ -6,8 +6,8 @@ final class TabBarController: UITabBarController {
         
         let mainScreenVC = TrackersViewController()
         let statisticVC = StatisticViewController()
-        var tabBarTrackerTitle: String = NSLocalizedString("tabBarTrackerTitle", comment: "")
-        var tabBarStatTitle: String = NSLocalizedString("tabBarStatTitle", comment: "")
+        let tabBarTrackerTitle: String = NSLocalizedString("tabBarTrackerTitle", comment: "")
+        let tabBarStatTitle: String = NSLocalizedString("tabBarStatTitle", comment: "")
         
         mainScreenVC.tabBarItem = UITabBarItem(
             title: tabBarTrackerTitle,

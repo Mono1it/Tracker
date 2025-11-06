@@ -9,7 +9,7 @@ final class TrackersViewController: UIViewController, HabitViewControllerDelegat
     private var currentFilter: filtersEnum = .all
     private var trackersOfDay: [Tracker] = []
     private lazy var alertPresenter = AlertPresenter(self)
-    
+    private let analyticsService = AnalyticsService()
     //MARK: - Variables Of UI Elements
     private var trackerTitleText = "Трекеры"
     private var startQuestionText = "Что будем отслеживать?"
@@ -112,6 +112,15 @@ final class TrackersViewController: UIViewController, HabitViewControllerDelegat
     }()
     
     // MARK: - Lifecycle
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        analyticsService.report(event: "open", screen: "main")
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        analyticsService.report(event: "close", screen: "main")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -279,6 +288,7 @@ final class TrackersViewController: UIViewController, HabitViewControllerDelegat
     
     //MARK: - Button Action
     @objc private func openCreateHabitModalWindow() {
+        analyticsService.report(event: "click", screen: "Main", item: "addTrack")
         let modalVC = CreateHabitModalViewController(trackerToEdit: nil, category: "")
         modalVC.delegate = self
         modalVC.modalPresentationStyle = .automatic
@@ -287,11 +297,13 @@ final class TrackersViewController: UIViewController, HabitViewControllerDelegat
     }
     
     @objc private func dateChanged() {
+        analyticsService.report(event: "click", screen: "Main", item: "dateChanged")
         reloadVisibleCategories()
         reloadPlaceholder()
     }
     
     @objc private func filterButtonTapped() {
+        analyticsService.report(event: "click", screen: "Main", item: "filter")
         let modalVC = FilterModalViewController(currentFilter: self.currentFilter.index)
         modalVC.delegate = self
         modalVC.modalPresentationStyle = .automatic
@@ -470,11 +482,13 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout, UICollecti
         }
         
         let indexPath = indexPaths[0]
-        
+        analyticsService.report(event: "click", screen: "Main", item: "openContext")
+        print("Окно контекста показано")
         return UIContextMenuConfiguration(actionProvider: { actions in
             return UIMenu(children: [
                 UIAction(title: "Редактировать") { [weak self] _ in
                     guard let self else { return }
+                    analyticsService.report(event: "click", screen: "Main", item: "editTracker")
                         let tracker = self.visibleCategories[indexPath.section].trackers[indexPath.row]
                         let category = self.visibleCategories[indexPath.section].title
 
@@ -486,7 +500,7 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout, UICollecti
                 },
                 UIAction(title: "Удалить", attributes: .destructive) { [weak self] _ in
                     guard let self else { return }
-                    
+                    analyticsService.report(event: "click", screen: "Main", item: "deleteTracker")
                     let tracker = self.visibleCategories[indexPath.section].trackers[indexPath.row]
                         
                         let alertModel = AlertModel(
@@ -531,6 +545,7 @@ extension TrackersViewController: TrackerCellDelegate {
         
         do {
             try TrackerRecordStore.shared.addNewTrackerRecord(trackerRecord)
+            analyticsService.report(event: "click", screen: "Main", item: "completeTracker")
             collectionView.reloadItems(at: [indexPath])
         } catch {
             print("❌ Нельзя добавить запись в будущем или произошла ошибка: \(error)")
@@ -541,7 +556,7 @@ extension TrackersViewController: TrackerCellDelegate {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         
         TrackerRecordStore.shared.removeRecords(for: id, on: trackerDatePicker.date)
-        
+        analyticsService.report(event: "click", screen: "Main", item: "uncompleteTracker")
         collectionView.reloadItems(at: [indexPath])
     }
 }

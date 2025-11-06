@@ -30,11 +30,11 @@ final class TrackerRecordStore: NSObject {
     func addNewTrackerRecord(_ trackerRecord: TrackerRecord, for tracker: TrackerCoreData? = nil) throws {
         let recordDay = Calendar.current.startOfDay(for: trackerRecord.date)
         let todayDay  = Calendar.current.startOfDay(for: Date())
-
+        
         guard recordDay <= todayDay else {
             throw TrackerRecordStoreError.cannotAddRecordInFuture
         }
-
+        
         let record = TrackerRecordCoreData(context: context)
         record.trackerId = trackerRecord.trackerId
         record.date = trackerRecord.date
@@ -43,27 +43,27 @@ final class TrackerRecordStore: NSObject {
     }
     
     func removeRecords(for trackerId: UUID, on date: Date) {
-            let request: NSFetchRequest<TrackerRecordCoreData> = TrackerRecordCoreData.fetchRequest()
-
-            let start = Calendar.current.startOfDay(for: date)
-            guard let nextDay = Calendar.current.date(byAdding: .day, value: 1, to: start) else { return }
-
-            request.predicate = NSPredicate(format: "trackerId == %@ AND date >= %@ AND date < %@",
-                                            trackerId as CVarArg, start as NSDate, nextDay as NSDate)
-
-            do {
-                let results = try context.fetch(request)
-                for r in results { context.delete(r) }
-                saveContext()
-            } catch {
-                print("❌ Ошибка удаления записей: \(error)")
-            }
+        let request: NSFetchRequest<TrackerRecordCoreData> = TrackerRecordCoreData.fetchRequest()
+        
+        let start = Calendar.current.startOfDay(for: date)
+        guard let nextDay = Calendar.current.date(byAdding: .day, value: 1, to: start) else { return }
+        
+        request.predicate = NSPredicate(format: "trackerId == %@ AND date >= %@ AND date < %@",
+                                        trackerId as CVarArg, start as NSDate, nextDay as NSDate)
+        
+        do {
+            let results = try context.fetch(request)
+            for r in results { context.delete(r) }
+            saveContext()
+        } catch {
+            print("❌ Ошибка удаления записей: \(error)")
         }
+    }
     
     func removeAllRecords(for trackerId: UUID) {
         let request: NSFetchRequest<TrackerRecordCoreData> = TrackerRecordCoreData.fetchRequest()
         request.predicate = NSPredicate(format: "trackerId == %@", trackerId as CVarArg)
-
+        
         do {
             let records = try context.fetch(request)
             for record in records {
@@ -93,35 +93,47 @@ final class TrackerRecordStore: NSObject {
     }
     
     func isCompleted(trackerId: UUID, on date: Date) -> Bool {
-            let request: NSFetchRequest<NSFetchRequestResult> = TrackerRecordCoreData.fetchRequest()
-            request.resultType = .countResultType
-
-            let start = Calendar.current.startOfDay(for: date)
-            guard let nextDay = Calendar.current.date(byAdding: .day, value: 1, to: start) else { return false }
-
-            request.predicate = NSPredicate(format: "trackerId == %@ AND date >= %@ AND date < %@",
-                                            trackerId as CVarArg, start as NSDate, nextDay as NSDate)
-            do {
-                let countResult = try context.count(for: request)
-                return countResult > 0
-            } catch {
-                print("❌ Ошибка подсчёта записей: \(error)")
-                return false
-            }
+        let request: NSFetchRequest<NSFetchRequestResult> = TrackerRecordCoreData.fetchRequest()
+        request.resultType = .countResultType
+        
+        let start = Calendar.current.startOfDay(for: date)
+        guard let nextDay = Calendar.current.date(byAdding: .day, value: 1, to: start) else { return false }
+        
+        request.predicate = NSPredicate(format: "trackerId == %@ AND date >= %@ AND date < %@",
+                                        trackerId as CVarArg, start as NSDate, nextDay as NSDate)
+        do {
+            let countResult = try context.count(for: request)
+            return countResult > 0
+        } catch {
+            print("❌ Ошибка подсчёта записей: \(error)")
+            return false
         }
+    }
     
     func completedDaysCount(trackerId: UUID) -> Int {
-            let request: NSFetchRequest<NSFetchRequestResult> = TrackerRecordCoreData.fetchRequest()
-            request.resultType = .countResultType
-            request.predicate = NSPredicate(format: "trackerId == %@", trackerId as CVarArg)
-            do {
-                let count = try context.count(for: request)
-                return count
-            } catch {
-                print("❌ Ошибка подсчёта completedDays: \(error)")
-                return 0
-            }
+        let request: NSFetchRequest<NSFetchRequestResult> = TrackerRecordCoreData.fetchRequest()
+        request.resultType = .countResultType
+        request.predicate = NSPredicate(format: "trackerId == %@", trackerId as CVarArg)
+        do {
+            let count = try context.count(for: request)
+            return count
+        } catch {
+            print("❌ Ошибка подсчёта completedDays: \(error)")
+            return 0
         }
+    }
+    
+    func countRecords() -> Int {
+        let request: NSFetchRequest<NSFetchRequestResult> = TrackerRecordCoreData.fetchRequest()
+        request.resultType = .countResultType
+        do {
+            let count = try context.count(for: request)
+            return count
+        } catch {
+            print("❌ Ошибка подсчёта countRecords: \(error)")
+            return 0
+        }
+    }
     
     //MARK: - FetchedResultController
     private lazy var fetchedResultController: NSFetchedResultsController<TrackerRecordCoreData> = {

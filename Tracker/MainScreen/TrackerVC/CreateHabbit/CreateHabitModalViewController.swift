@@ -20,7 +20,7 @@ final class CreateHabitModalViewController: UIViewController, UITextFieldDelegat
     private var editingTracker: Tracker?
     private var isEditingTracker: Bool { editingTracker != nil }
     private var completedDaysCount: Int = 0
-
+    
     init(trackerToEdit: Tracker?, category: String) {
         super.init(nibName: nil, bundle: nil)
         self.editingTracker = trackerToEdit
@@ -203,10 +203,10 @@ final class CreateHabitModalViewController: UIViewController, UITextFieldDelegat
         )
         if isEditingTracker {
             delegate?.habitViewController(self, didEdit: tracker, inCategory: categoryTitle)
-
+            
         } else {
             delegate?.habitViewController(self, didCreate: tracker, inCategory: categoryTitle)
-
+            
         }
         dismiss(animated: true)
     }
@@ -263,7 +263,7 @@ final class CreateHabitModalViewController: UIViewController, UITextFieldDelegat
             completedLabel.bottomAnchor.constraint(equalTo: scrollView.topAnchor, constant: -16)
         ])
     }
-
+    
     
     private func setupTrackerTitle() {
         NSLayoutConstraint.activate([
@@ -356,18 +356,18 @@ final class CreateHabitModalViewController: UIViewController, UITextFieldDelegat
         trackerEmoji = editingTracker?.emoji
         trackerColor = editingTracker?.color
         weekDaysForTracker = editingTracker?.schedule ?? []
-
+        
         // Найдём индекс эмодзи и цвета
         if let emoji = editingTracker?.emoji,
            let emojiIndex = emojiList.firstIndex(of: emoji) {
             selectedEmojiIndex = IndexPath(item: emojiIndex, section: 0)
         }
-
+        
         if let color = editingTracker?.color,
            let colorIndex = trackerColors.firstIndex(where: { $0 == color }) {
             selectedColorIndex = IndexPath(item: colorIndex, section: 1)
         }
-
+        
         // Подзаголовки
         cells[0].subtitle = categoryTitle
         let allDays = WeekDay.allCases
@@ -378,12 +378,12 @@ final class CreateHabitModalViewController: UIViewController, UITextFieldDelegat
                 .map { $0.shortTitle }
                 .joined(separator: " ")
         }
-
+        
         tableView.reloadData()
         collectionView.reloadData()
         updateCreateButton()
     }
-
+    
     // MARK: - Delegate Methods
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let currentText = textField.text ?? ""
@@ -484,10 +484,24 @@ extension CreateHabitModalViewController: UICollectionViewDelegateFlowLayout, UI
         case 0:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EmojiCell.identifier, for: indexPath) as? EmojiCell else { return UICollectionViewCell() }
             cell.configure(emoji: emojiList[indexPath.item])
+            
+            if let selectedEmojiIndex = selectedEmojiIndex, selectedEmojiIndex == indexPath {
+                cell.selectCell(with: self.editingTracker?.emoji ?? "")
+            } else {
+                cell.deselectCell()
+            }
+            
             return cell
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ColorCell.identifier, for: indexPath) as? ColorCell else { return UICollectionViewCell() }
             cell.configure(color: trackerColors[indexPath.item])
+            
+            if let selectedColorIndex = selectedColorIndex, selectedColorIndex == indexPath {
+                cell.selectCell(with: self.editingTracker?.color ?? .ypGray)
+            } else {
+                cell.deselectCell()
+            }
+            
             return cell
         default:
             return UICollectionViewCell()

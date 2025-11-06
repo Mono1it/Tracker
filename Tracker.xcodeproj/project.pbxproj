@@ -24,6 +24,13 @@
 		09DEA1B82EBBA2C400C1FDE9 /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEA1B72EBBA2C400C1FDE9 /* FilterCell.swift */; };
 		09DEA1C62EBCBDEC00C1FDE9 /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEA1C52EBCBDEC00C1FDE9 /* AlertPresenter.swift */; };
 		09DEA1C82EBCC3AE00C1FDE9 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEA1C72EBCC3AE00C1FDE9 /* AlertModel.swift */; };
+		09DEA2482EBCE39E00C1FDE9 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEA2472EBCE39E00C1FDE9 /* AnalyticsService.swift */; };
+		09DEA24B2EBCE3F900C1FDE9 /* AppMetricaAdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 09DEA24A2EBCE3F900C1FDE9 /* AppMetricaAdSupport */; };
+		09DEA24D2EBCE3F900C1FDE9 /* AppMetricaCore in Frameworks */ = {isa = PBXBuildFile; productRef = 09DEA24C2EBCE3F900C1FDE9 /* AppMetricaCore */; };
+		09DEA24F2EBCE3F900C1FDE9 /* AppMetricaCrashes in Frameworks */ = {isa = PBXBuildFile; productRef = 09DEA24E2EBCE3F900C1FDE9 /* AppMetricaCrashes */; };
+		09DEA2512EBCE3F900C1FDE9 /* AppMetricaWebKit in Frameworks */ = {isa = PBXBuildFile; productRef = 09DEA2502EBCE3F900C1FDE9 /* AppMetricaWebKit */; };
+		09DEA2D12EBD01BC00C1FDE9 /* StatisticCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEA2D02EBD01BC00C1FDE9 /* StatisticCell.swift */; };
+		09DEA2D32EBD023700C1FDE9 /* GradientBorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEA2D22EBD023700C1FDE9 /* GradientBorderView.swift */; };
 		09E5406D2E4693BA00442164 /* TrackerStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E5406C2E4693BA00442164 /* TrackerStructures.swift */; };
 		09E540712E4BCB0D00442164 /* CreateHabitModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E540702E4BCB0D00442164 /* CreateHabitModalViewController.swift */; };
 		09E540732E4CFB2E00442164 /* TableCellForCreateHabbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E540722E4CFB2E00442164 /* TableCellForCreateHabbit.swift */; };
@@ -63,6 +70,9 @@
 		09DEA1B72EBBA2C400C1FDE9 /* FilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
 		09DEA1C52EBCBDEC00C1FDE9 /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
 		09DEA1C72EBCC3AE00C1FDE9 /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
+		09DEA2472EBCE39E00C1FDE9 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
+		09DEA2D02EBD01BC00C1FDE9 /* StatisticCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticCell.swift; sourceTree = "<group>"; };
+		09DEA2D22EBD023700C1FDE9 /* GradientBorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBorderView.swift; sourceTree = "<group>"; };
 		09E5406C2E4693BA00442164 /* TrackerStructures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerStructures.swift; sourceTree = "<group>"; };
 		09E540702E4BCB0D00442164 /* CreateHabitModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateHabitModalViewController.swift; sourceTree = "<group>"; };
 		09E540722E4CFB2E00442164 /* TableCellForCreateHabbit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCellForCreateHabbit.swift; sourceTree = "<group>"; };
@@ -87,6 +97,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09DEA2512EBCE3F900C1FDE9 /* AppMetricaWebKit in Frameworks */,
+				09DEA24F2EBCE3F900C1FDE9 /* AppMetricaCrashes in Frameworks */,
+				09DEA24B2EBCE3F900C1FDE9 /* AppMetricaAdSupport in Frameworks */,
+				09DEA24D2EBCE3F900C1FDE9 /* AppMetricaCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,6 +208,7 @@
 			children = (
 				09DEA1C52EBCBDEC00C1FDE9 /* AlertPresenter.swift */,
 				09DEA1C72EBCC3AE00C1FDE9 /* AlertModel.swift */,
+				09DEA2472EBCE39E00C1FDE9 /* AnalyticsService.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -214,6 +229,8 @@
 			isa = PBXGroup;
 			children = (
 				094318DA2E37A63C00F4D094 /* StatisticViewController.swift */,
+				09DEA2D02EBD01BC00C1FDE9 /* StatisticCell.swift */,
+				09DEA2D22EBD023700C1FDE9 /* GradientBorderView.swift */,
 			);
 			path = StatisticVC;
 			sourceTree = "<group>";
@@ -331,6 +348,9 @@
 				Base,
 			);
 			mainGroup = 094318B72E367A9600F4D094;
+			packageReferences = (
+				09DEA2492EBCE3F900C1FDE9 /* XCRemoteSwiftPackageReference "appmetrica-sdk-ios" */,
+			);
 			productRefGroup = 094318C12E367A9600F4D094 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -366,9 +386,11 @@
 				093ACA702EB231ED0029AA69 /* OnboardingScreenViewController.swift in Sources */,
 				09E540842E5B534200442164 /* HabitHeader.swift in Sources */,
 				09E540D22E5DCB8E00442164 /* CoreDataManager.swift in Sources */,
+				09DEA2D32EBD023700C1FDE9 /* GradientBorderView.swift in Sources */,
 				094318C82E367A9600F4D094 /* TrackersViewController.swift in Sources */,
 				09E540752E4E0D1E00442164 /* ScheduleViewController.swift in Sources */,
 				09DEA1C62EBCBDEC00C1FDE9 /* AlertPresenter.swift in Sources */,
+				09DEA2D12EBD01BC00C1FDE9 /* StatisticCell.swift in Sources */,
 				09DEA1B52EBB9C2E00C1FDE9 /* FilterModalViewController.swift in Sources */,
 				094318D92E37A54000F4D094 /* TabBarController.swift in Sources */,
 				09E540F22E685B6300442164 /* DaysValueTransformer.swift in Sources */,
@@ -386,6 +408,7 @@
 				093ACA752EB239340029AA69 /* OnboardPageViewController.swift in Sources */,
 				093ACA772EB28E990029AA69 /* CategoryViewController.swift in Sources */,
 				09E540732E4CFB2E00442164 /* TableCellForCreateHabbit.swift in Sources */,
+				09DEA2482EBCE39E00C1FDE9 /* AnalyticsService.swift in Sources */,
 				09E540772E4E133600442164 /* WeekDayCell.swift in Sources */,
 				09E5407E2E59EFBC00442164 /* EmojiCell.swift in Sources */,
 				094318C62E367A9600F4D094 /* SceneDelegate.swift in Sources */,
@@ -603,6 +626,40 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		09DEA2492EBCE3F900C1FDE9 /* XCRemoteSwiftPackageReference "appmetrica-sdk-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/appmetrica/appmetrica-sdk-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.14.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		09DEA24A2EBCE3F900C1FDE9 /* AppMetricaAdSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 09DEA2492EBCE3F900C1FDE9 /* XCRemoteSwiftPackageReference "appmetrica-sdk-ios" */;
+			productName = AppMetricaAdSupport;
+		};
+		09DEA24C2EBCE3F900C1FDE9 /* AppMetricaCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 09DEA2492EBCE3F900C1FDE9 /* XCRemoteSwiftPackageReference "appmetrica-sdk-ios" */;
+			productName = AppMetricaCore;
+		};
+		09DEA24E2EBCE3F900C1FDE9 /* AppMetricaCrashes */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 09DEA2492EBCE3F900C1FDE9 /* XCRemoteSwiftPackageReference "appmetrica-sdk-ios" */;
+			productName = AppMetricaCrashes;
+		};
+		09DEA2502EBCE3F900C1FDE9 /* AppMetricaWebKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 09DEA2492EBCE3F900C1FDE9 /* XCRemoteSwiftPackageReference "appmetrica-sdk-ios" */;
+			productName = AppMetricaWebKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		09E540A82E5CABBC00442164 /* TrackerModel.xcdatamodeld */ = {

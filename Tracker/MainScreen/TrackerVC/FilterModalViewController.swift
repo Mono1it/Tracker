@@ -9,10 +9,10 @@ enum filtersEnum: String {
     
     var title: String {
         switch self {
-        case .all: return "Все трекеры"
-        case .today: return "Трекеры на сегодня"
-        case .complete: return "Завершенные"
-        case .uncomplete: return "Не завершенные"
+        case .all: return NSLocalizedString("filterAll", comment: "")
+        case .today: return NSLocalizedString("filterToday", comment: "")
+        case .complete: return NSLocalizedString("filterComplete", comment: "")
+        case .uncomplete: return NSLocalizedString("filterUncomplete", comment: "")
         }
     }
     
@@ -49,7 +49,7 @@ final class FilterModalViewController: UIViewController {
     }
     
     //MARK: - Text Of UI Elements
-    private let categoryTitleText = "Фильтры"
+    private let categoryTitleText = NSLocalizedString("filterCategoryTitleText", comment: "")
     
     //MARK: - UIElements
     private lazy var titleLabel: UILabel = {

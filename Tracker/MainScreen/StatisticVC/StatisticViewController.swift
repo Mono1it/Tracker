@@ -3,8 +3,8 @@ import CoreData
 
 final class StatisticViewController: UIViewController {
     // MARK: - Data
-    private let statisticTitleText: String = "Статистика"
-    private let noDataText: String = "Анализировать пока нечего"
+    private let statisticTitleText = NSLocalizedString("statistics_title", comment: "Заголовок экрана статистики")
+    private let noDataText = NSLocalizedString("no_data_text", comment: "Текст, когда нет данных для анализа")
     private lazy var stats: [(Int, String)] = []
     
     private let recordStore = TrackerRecordStore.shared
@@ -114,7 +114,7 @@ final class StatisticViewController: UIViewController {
     private func updateTrackerCountStatistic() {
         self.stats = [(
             recordStore.countRecords(),
-            "Трекеров завершено"
+            NSLocalizedString("trackers_completed", comment: "Количество завершённых трекеров")
         )]
     }
 }

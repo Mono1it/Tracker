@@ -11,8 +11,8 @@ final class ScheduleViewController: UIViewController {
     private var selectedDays: Set<WeekDay> = []
     
     //MARK: - Text Of UI Elements
-    private let scheduleTitleText = "Расписание"
-    private let doneText = "Готово"
+    private let scheduleTitleText = NSLocalizedString("scheduleTitleText", comment: "")
+    private let doneText = NSLocalizedString("doneText", comment: "")
     
     // MARK: - UI Elements
     private lazy var tableView = {

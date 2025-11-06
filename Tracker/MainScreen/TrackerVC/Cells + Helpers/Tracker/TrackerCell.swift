@@ -147,7 +147,10 @@ final class TrackerCell: UICollectionViewCell {
         emojiLabel.text = tracker.emoji
         titleLabel.text = tracker.title
         
-        daysLabel.text = "\(comletedDays) дней"
+        let daysText = String.localizedStringWithFormat(
+            NSLocalizedString("days_count", comment: "Количество дней трекера"), comletedDays
+        )
+        daysLabel.text = daysText
         
         cardView.backgroundColor = color
         plusButton.backgroundColor = isComletedToday ? color.withAlphaComponent(0.3) : color

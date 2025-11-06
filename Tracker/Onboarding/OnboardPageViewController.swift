@@ -3,12 +3,12 @@ import UIKit
 
 final class OnboardPageViewController: UIViewController {
     private let imageView = UIImageView()
-    
+    var onboardButtonTitle: String = NSLocalizedString("onboardButtonTitle", comment: "Text displayed on onboardingButton")
     var onFinish: (() -> Void)?
     
     private lazy var nextButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Вот это технологии!", for: .normal)
+        button.setTitle(onboardButtonTitle, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16)
         button.setTitleColor(.ypWhite, for: .normal)
         button.backgroundColor = .ypBlack

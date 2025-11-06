@@ -3,6 +3,9 @@ import UIKit
 class OnboardingScreenViewController: UIPageViewController {
     
     var onFinish: (() -> Void)?
+    var onboardText1: String = NSLocalizedString("onboardText1", comment: "Text displayed on onboarding")
+    var onboardText2: String = NSLocalizedString("onboardText2", comment: "Text displayed on onboarding")
+    
     
     init() {
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal)
@@ -15,14 +18,14 @@ class OnboardingScreenViewController: UIPageViewController {
     lazy var pages: [UIViewController] = {
         let page1 = OnboardPageViewController(
             imageName: "OnboardBackground1",
-            labelText: "Отслеживайте только то, что хотите"
+            labelText: onboardText1
         )
         page1.onFinish = {[weak self] in
             self?.onFinish?()
         }
         let page2 = OnboardPageViewController(
             imageName: "OnboardBackground2",
-            labelText: "Даже если это \nне литры воды и йога"
+            labelText: onboardText2
         )
         page2.onFinish = {[weak self] in
             self?.onFinish?()

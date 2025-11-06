@@ -5,6 +5,7 @@ protocol HabitViewControllerDelegate: AnyObject {
     func habitViewController(_ controller: CreateHabitModalViewController, didEdit tracker: Tracker, inCategory category: String)
 }
 
+
 final class CreateHabitModalViewController: UIViewController, UITextFieldDelegate, ScheduleViewControllerDelegate, DidSelectCategoryDelegate {
     
     weak var delegate: HabitViewControllerDelegate?
@@ -16,7 +17,10 @@ final class CreateHabitModalViewController: UIViewController, UITextFieldDelegat
     private var trackerEmoji: String?
     private var trackerColor: UIColor?
     private lazy var weekDaysForTracker: [WeekDay] = []
-    
+    private enum HabitCellType: CaseIterable {
+        case category
+        case schedule
+    }
     private var editingTracker: Tracker?
     private var isEditingTracker: Bool { editingTracker != nil }
     private var completedDaysCount: Int = 0
@@ -32,12 +36,12 @@ final class CreateHabitModalViewController: UIViewController, UITextFieldDelegat
     }
     
     //MARK: - Text Of UI Elements
-    private let trackerTitleText = "Новая привычка"
-    private let placeholder = "Введите название трекера"
-    private let limitText = "Ограничение 38 символов"
+    private let trackerTitleText = NSLocalizedString("trackerTitleText_newHabit", comment: "")
+    private let placeholder = NSLocalizedString("trackerPlaceholder", comment: "")
+    private let limitText = NSLocalizedString("trackerLimitText", comment: "")
     private let limitLabelText: Int = 38
-    private let cancelText = "Отменить"
-    private let createText = "Создать"
+    private let cancelText = NSLocalizedString("cancelText", comment: "")
+    private let createText = NSLocalizedString("createText", comment: "")
     private let emojiList: [String] = [
         "🙂", "😻", "🌺", "🐶", "❤️", "😱",
         "😇", "😡", "🥶", "🤔", "🙌", "🍔",
@@ -46,15 +50,17 @@ final class CreateHabitModalViewController: UIViewController, UITextFieldDelegat
     private let trackerColors: [UIColor] = (1...18).compactMap {
         UIColor(named: "Color Selection \($0)") //Очень чувствительная строка
     }
-    private let headerNames: [String] = ["Emoji", "Цвет"]
+    private let headerNames: [String] = [
+        NSLocalizedString("emojiHeader", comment: ""),
+        NSLocalizedString("colorHeader", comment: "")
+    ]
     
     private var selectedEmojiIndex: IndexPath?
     private var selectedColorIndex: IndexPath?
     
-    // Данные для ячеек (title, subtitle)
-    var cells: [(title: String, subtitle: String?)] = [
-        ("Категория", nil),
-        ("Расписание", nil)
+    private var cells: [(type: HabitCellType, title: String, subtitle: String?)] = [
+        (.category, NSLocalizedString("categoryCell", comment: ""), nil),
+        (.schedule, NSLocalizedString("scheduleCell", comment: ""), nil)
     ]
     
     // MARK: - UI Elements
@@ -256,7 +262,7 @@ final class CreateHabitModalViewController: UIViewController, UITextFieldDelegat
     }
     
     private func setupCompletedLabel() {
-        completedLabel.text = "\(completedDaysCount) дней"
+        completedLabel.text = String(format: NSLocalizedString("completedDaysFormat", comment: ""), completedDaysCount)
         NSLayoutConstraint.activate([
             completedLabel.topAnchor.constraint(equalTo: trackerTitleLabel.bottomAnchor, constant: 24),
             completedLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -348,8 +354,8 @@ final class CreateHabitModalViewController: UIViewController, UITextFieldDelegat
     }
     
     private func configureForEditing() {
-        trackerTitleLabel.text = "Редактирование трекера"
-        createButton.setTitle("Сохранить", for: .normal)
+        trackerTitleLabel.text = NSLocalizedString("editTrackerTitle", comment: "")
+        createButton.setTitle(NSLocalizedString("saveText", comment: ""), for: .normal)
         
         textField.text = editingTracker?.title
         trackerName = editingTracker?.title
@@ -401,7 +407,7 @@ final class CreateHabitModalViewController: UIViewController, UITextFieldDelegat
         let subtitle: String
         
         if days.count == allDays.count {
-            subtitle = "Каждый день"
+            subtitle = NSLocalizedString("everyDay", comment: "")
         } else {
             // Сортируем по порядку из enum
             let sortedDays = days.sorted { $0.rawValue < $1.rawValue }
@@ -447,13 +453,15 @@ extension CreateHabitModalViewController: UITableViewDataSource, UITableViewDele
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        print("Нажали на: \(cells[indexPath.row].title)")
-        if cells[indexPath.row].title == "Расписание" {
-            openCreateScheduleModalWindow()
-        }
         
-        if cells[indexPath.row].title == "Категория" {
+        let cellType = cells[indexPath.row].type
+        print("Нажали на: \(cellType)")
+        
+        switch cellType {
+        case .category:
             openCreateCategoryModalWindow()
+        case .schedule:
+            openCreateScheduleModalWindow()
         }
     }
     

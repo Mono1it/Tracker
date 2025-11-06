@@ -10,12 +10,13 @@ final class TrackersViewController: UIViewController, HabitViewControllerDelegat
     private var trackersOfDay: [Tracker] = []
     private lazy var alertPresenter = AlertPresenter(self)
     private let analyticsService = AnalyticsService()
+    
     //MARK: - Variables Of UI Elements
-    private var trackerTitleText = "Трекеры"
-    private var startQuestionText = "Что будем отслеживать?"
-    private var searchbarPlaceholder = "Поиск"
-    private let filterText = "Фильтры"
-    private let notFoundText = "Ничего не найдено"
+    private var trackerTitleText = NSLocalizedString("trackerTitleText", comment: "")
+    private var startQuestionText = NSLocalizedString("startQuestionText", comment: "")
+    private var searchbarPlaceholder = NSLocalizedString("searchbarPlaceholder", comment: "")
+    private let filterText = NSLocalizedString("filterText", comment: "")
+    private let notFoundText = NSLocalizedString("notFoundText", comment: "")
     
     // MARK: - UI Elements
     private lazy var collectionView: UICollectionView = {
@@ -51,7 +52,7 @@ final class TrackersViewController: UIViewController, HabitViewControllerDelegat
         datePicker.clipsToBounds = true
         datePicker.calendar.firstWeekday = 2
         let localID = Locale.preferredLanguages.first
-        datePicker.locale = Locale(identifier: localID ?? "ru_RU")
+        //datePicker.locale = Locale(identifier: localID ?? "ru_RU")
         datePicker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
         return datePicker
     }()
@@ -486,7 +487,7 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout, UICollecti
         print("Окно контекста показано")
         return UIContextMenuConfiguration(actionProvider: { actions in
             return UIMenu(children: [
-                UIAction(title: "Редактировать") { [weak self] _ in
+                UIAction(title: NSLocalizedString("editAction", comment: "")) { [weak self] _ in
                     guard let self else { return }
                     analyticsService.report(event: "click", screen: "Main", item: "editTracker")
                         let tracker = self.visibleCategories[indexPath.section].trackers[indexPath.row]
@@ -498,15 +499,15 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout, UICollecti
                         editVC.modalTransitionStyle = .coverVertical
                         self.present(editVC, animated: true)
                 },
-                UIAction(title: "Удалить", attributes: .destructive) { [weak self] _ in
+                UIAction(title: NSLocalizedString("deleteAction", comment: ""), attributes: .destructive) { [weak self] _ in
                     guard let self else { return }
                     analyticsService.report(event: "click", screen: "Main", item: "deleteTracker")
                     let tracker = self.visibleCategories[indexPath.section].trackers[indexPath.row]
                         
                         let alertModel = AlertModel(
                             title: "",
-                            message: "Уверены, что хотите удалить трекер?",
-                            buttonText: "Удалить"
+                            message: NSLocalizedString("confirmDeleteMessage", comment: ""),
+                            buttonText: NSLocalizedString("deleteAction", comment: "")
                         ) { [weak self] in
                             guard let self = self else { return }
 

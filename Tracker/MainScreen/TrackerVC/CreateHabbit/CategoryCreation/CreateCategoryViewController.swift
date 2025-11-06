@@ -12,11 +12,11 @@ final class CreateCategoryViewController: UIViewController {
     private var categotyName: String?
     
     //MARK: - Text Of UI Elements
-    private let trackerTitleText = "Новая категория"
-    private let placeholder = "Введите название категории"
-    private let limitText = "Ограничение 24 символа"
+    private let trackerTitleText = NSLocalizedString("newCategoryTitle", comment: "")
+    private let placeholder = NSLocalizedString("categoryPlaceholder", comment: "")
+    private let limitText = NSLocalizedString("categoryLimitText", comment: "")
+    private let createText = NSLocalizedString("doneText", comment: "")
     private let limitLabelText: Int = 38
-    private let createText = "Готово"
     
     // MARK: - UI Elements
     private lazy var createCategoryTitleLabel: UILabel = {

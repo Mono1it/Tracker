@@ -31,6 +31,8 @@
 		09DEA2512EBCE3F900C1FDE9 /* AppMetricaWebKit in Frameworks */ = {isa = PBXBuildFile; productRef = 09DEA2502EBCE3F900C1FDE9 /* AppMetricaWebKit */; };
 		09DEA2D12EBD01BC00C1FDE9 /* StatisticCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEA2D02EBD01BC00C1FDE9 /* StatisticCell.swift */; };
 		09DEA2D32EBD023700C1FDE9 /* GradientBorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEA2D22EBD023700C1FDE9 /* GradientBorderView.swift */; };
+		09DEA2D82EBD133100C1FDE9 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 09DEA2D62EBD133100C1FDE9 /* Localizable.stringsdict */; };
+		09DEA2DB2EBD135400C1FDE9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 09DEA2D92EBD135400C1FDE9 /* Localizable.strings */; };
 		09E5406D2E4693BA00442164 /* TrackerStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E5406C2E4693BA00442164 /* TrackerStructures.swift */; };
 		09E540712E4BCB0D00442164 /* CreateHabitModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E540702E4BCB0D00442164 /* CreateHabitModalViewController.swift */; };
 		09E540732E4CFB2E00442164 /* TableCellForCreateHabbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E540722E4CFB2E00442164 /* TableCellForCreateHabbit.swift */; };
@@ -73,6 +75,10 @@
 		09DEA2472EBCE39E00C1FDE9 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		09DEA2D02EBD01BC00C1FDE9 /* StatisticCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticCell.swift; sourceTree = "<group>"; };
 		09DEA2D22EBD023700C1FDE9 /* GradientBorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBorderView.swift; sourceTree = "<group>"; };
+		09DEA2D72EBD133100C1FDE9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		09DEA2DA2EBD135400C1FDE9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		09DEA2E02EBD13DB00C1FDE9 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		09DEA2E12EBD13E700C1FDE9 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ru; path = ru.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		09E5406C2E4693BA00442164 /* TrackerStructures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerStructures.swift; sourceTree = "<group>"; };
 		09E540702E4BCB0D00442164 /* CreateHabitModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateHabitModalViewController.swift; sourceTree = "<group>"; };
 		09E540722E4CFB2E00442164 /* TableCellForCreateHabbit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCellForCreateHabbit.swift; sourceTree = "<group>"; };
@@ -160,6 +166,7 @@
 				09E540ED2E6857B100442164 /* CoreData */,
 				094318D72E36BE3500F4D094 /* MainScreen */,
 				09DEA1C42EBCBDC300C1FDE9 /* Helpers */,
+				09DEA2D52EBD115300C1FDE9 /* Localizations */,
 				094318CC2E367A9800F4D094 /* Assets.xcassets */,
 				094318CE2E367A9800F4D094 /* LaunchScreen.storyboard */,
 				094318D12E367A9800F4D094 /* Info.plist */,
@@ -211,6 +218,15 @@
 				09DEA2472EBCE39E00C1FDE9 /* AnalyticsService.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		09DEA2D52EBD115300C1FDE9 /* Localizations */ = {
+			isa = PBXGroup;
+			children = (
+				09DEA2D92EBD135400C1FDE9 /* Localizable.strings */,
+				09DEA2D62EBD133100C1FDE9 /* Localizable.stringsdict */,
+			);
+			path = Localizations;
 			sourceTree = "<group>";
 		};
 		09E540D32E5DCCFC00442164 /* TrackerVC */ = {
@@ -346,6 +362,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 094318B72E367A9600F4D094;
 			packageReferences = (
@@ -366,7 +383,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				094318D02E367A9800F4D094 /* LaunchScreen.storyboard in Resources */,
+				09DEA2DB2EBD135400C1FDE9 /* Localizable.strings in Resources */,
 				094318CD2E367A9800F4D094 /* Assets.xcassets in Resources */,
+				09DEA2D82EBD133100C1FDE9 /* Localizable.stringsdict in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,6 +445,24 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		09DEA2D62EBD133100C1FDE9 /* Localizable.stringsdict */ = {
+			isa = PBXVariantGroup;
+			children = (
+				09DEA2D72EBD133100C1FDE9 /* en */,
+				09DEA2E12EBD13E700C1FDE9 /* ru */,
+			);
+			name = Localizable.stringsdict;
+			sourceTree = "<group>";
+		};
+		09DEA2D92EBD135400C1FDE9 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				09DEA2DA2EBD135400C1FDE9 /* en */,
+				09DEA2E02EBD13DB00C1FDE9 /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -434,6 +471,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -497,6 +535,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";

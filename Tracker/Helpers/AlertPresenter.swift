@@ -26,7 +26,7 @@ final class AlertPresenter: AlertPresenterProtocol {
             model.completion()
             self?.viewController?.didAlertButtonTouch(alert: alert)
         }
-        let cancel = UIAlertAction(title: "Отменить", style: .cancel, handler: nil)
+        let cancel = UIAlertAction(title: NSLocalizedString("cancel_button", comment: "Кнопка отмены в алерте"), style: .cancel, handler: nil)
         
         alert.addAction(delete)
         alert.addAction(cancel)

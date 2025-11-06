@@ -27,9 +27,9 @@ final class CategoryViewController: UIViewController {
     }
     
     //MARK: - Text Of UI Elements
-    private let categoryTitleText = "Категория"
-    private let addButtonText = "Добавить категорию"
-    private let startQuestionText = "Привычки и события можно \nобъединить по смыслу"
+    private let categoryTitleText = NSLocalizedString("categoryTitleText", comment: "")
+    private let addButtonText = NSLocalizedString("addButtonText", comment: "")
+    private let startQuestionText = NSLocalizedString("startQuestionText", comment: "")
     
     //MARK: - UIElements
     private lazy var titleLabel: UILabel = {
@@ -215,7 +215,7 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
         
         viewModel.selectCategory(at: indexPath.row)
         let isSelected = viewModel.selectedCategory?.title == categoryName
-        cell.configure(title: viewModel.selectedCategory?.title ?? "Без названия", isSelected: isSelected)
+        cell.configure(title: viewModel.selectedCategory?.title ?? NSLocalizedString("unnamedCategory", comment: ""), isSelected: isSelected)
         
         cell.backgroundColor = .ypBackground
         
@@ -233,8 +233,8 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
         
         categoryTableView.reloadData()
         
-        categoryDelegate?.didSelectCategory(category: selectedCategory?.title ?? "Важное")
-        print("Категория \(viewModel.selectedCategory?.title ?? "Важное") выбрана")
+        categoryDelegate?.didSelectCategory(category: selectedCategory?.title ?? NSLocalizedString("importantCategory", comment: ""))
+        print(String(format: NSLocalizedString("categorySelectedFormat", comment: ""), viewModel.selectedCategory?.title ?? ""))
         
         dismiss(animated: true)
     }

@@ -17,7 +17,7 @@ final class CoreDataManager {
         })
         return container
     }()
-
+    
     // MARK: - Core Data Context
     var viewContext: NSManagedObjectContext {
         persistentContainer.viewContext

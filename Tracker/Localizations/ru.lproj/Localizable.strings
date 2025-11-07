@@ -1,0 +1,65 @@
+"onboardText1" = "Отслеживайте только то, что хотите";
+"onboardText2" = "Даже если это \nне литры воды и йога";
+"onboardButtonTitle" = "Вот это технологии!";
+"tabBarTrackerTitle" = "Трекеры";
+"tabBarStatTitle" = "Статистика";
+"trackerTitleText" = "Трекеры";
+"startQuestionText" = "Что будем отслеживать?";
+"searchbarPlaceholder" = "Поиск";
+"filterText" = "Фильтры";
+"notFoundText" = "Ничего не найдено";
+"editAction" = "Редактировать";
+"deleteAction" = "Удалить";
+"confirmDeleteMessage" = "Уверены, что хотите удалить трекер?";
+"filterAll" = "Все трекеры";
+"filterToday" = "Трекеры на сегодня";
+"filterComplete" = "Завершенные";
+"filterUncomplete" = "Не завершенные";
+"filterCategoryTitleText" = "Фильтры";
+"trackerTitleText_newHabit" = "Новая привычка";
+"trackerPlaceholder" = "Введите название трекера";
+"trackerLimitText" = "Ограничение 38 символов";
+"cancelText" = "Отменить";
+"createText" = "Создать";
+"saveText" = "Сохранить";
+"emojiHeader" = "Emoji";
+"colorHeader" = "Цвет";
+"categoryCell" = "Категория";
+"scheduleCell" = "Расписание";
+"editTrackerTitle" = "Редактирование трекера";
+"completedDaysFormat" = "%d дней";
+"everyDay" = "Каждый день";
+"scheduleTitleText" = "Расписание";
+"doneText" = "Готово";
+
+"categoryTitleText" = "Категория";
+"addButtonText" = "Добавить категорию";
+"startQuestionText" = "Привычки и события можно \nобъединить по смыслу";
+"unnamedCategory" = "Без названия";
+"importantCategory" = "Важное";
+"categorySelectedFormat" = "Категория %@ выбрана";
+
+"newCategoryTitle" = "Новая категория";
+"categoryPlaceholder" = "Введите название категории";
+"categoryLimitText" = "Ограничение 24 символа";
+
+"monday_full" = "Понедельник";
+"tuesday_full" = "Вторник";
+"wednesday_full" = "Среда";
+"thursday_full" = "Четверг";
+"friday_full" = "Пятница";
+"saturday_full" = "Суббота";
+"sunday_full" = "Воскресенье";
+
+"monday_short" = "Пн.";
+"tuesday_short" = "Вт.";
+"wednesday_short" = "Ср.";
+"thursday_short" = "Чт.";
+"friday_short" = "Пт.";
+"saturday_short" = "Сб.";
+"sunday_short" = "Вс.";
+
+"statistics_title" = "Статистика";
+"no_data_text" = "Анализировать пока нечего";
+"trackers_completed" = "Трекеров завершено";
+"cancel_button" = "Отменить";

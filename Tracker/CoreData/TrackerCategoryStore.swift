@@ -32,7 +32,7 @@ final class TrackerCategoryStore: NSObject {
             return nil
         }
     }
-
+    
     func addTrackerCategory(_ trackerCategory: TrackerCategory) {
         if let existingCategory = fetchCategoryEntity(withTitle: trackerCategory.title) {
             addTrackers(to: existingCategory, from: trackerCategory)
@@ -41,7 +41,7 @@ final class TrackerCategoryStore: NSObject {
         }
         saveContext()
     }
-
+    
     private func addTrackers(to category: TrackerCategoryCoreData, from trackerCategory: TrackerCategory) {
         let existingTrackerIDs = (category.trackers as? Set<TrackerCoreData>)?.map { $0.id } ?? []
         for tracker in trackerCategory.trackers where !existingTrackerIDs.contains(tracker.id) {
@@ -50,7 +50,7 @@ final class TrackerCategoryStore: NSObject {
             category.addToTrackers(trackerCD)
         }
     }
-
+    
     private func createNewCategory(with trackerCategory: TrackerCategory) {
         let categoryCD = TrackerCategoryCoreData(context: context)
         categoryCD.title = trackerCategory.title
@@ -60,7 +60,7 @@ final class TrackerCategoryStore: NSObject {
             categoryCD.addToTrackers(trackerCD)
         }
     }
-
+    
     private func createTrackerCoreData(from tracker: Tracker) -> TrackerCoreData {
         let trackerCD = TrackerCoreData(context: context)
         trackerCD.id = tracker.id
@@ -70,6 +70,71 @@ final class TrackerCategoryStore: NSObject {
         trackerCD.color = UIColorMarshalling.hexString(from: tracker.color) ?? "#FFFFFF"
         return trackerCD
     }
+    
+    func removeTracker(_ trackerId: UUID) {
+        let request: NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", trackerId as CVarArg)
+        request.fetchLimit = 1
+        
+        do {
+            if let tracker = try context.fetch(request).first,
+               let category = tracker.category {
+                category.removeFromTrackers(tracker)
+                context.delete(tracker)
+                saveContext()
+                print("🗑️ Трекер удалён из категории \(category.title ?? "Без названия")")
+            }
+        } catch {
+            print("❌ Ошибка при удалении трекера из категории: \(error)")
+        }
+    }
+    
+    func updateTracker(_ tracker: Tracker, in categoryTitle: String) {
+        // Найти TrackerCoreData по id
+        let request: NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", tracker.id as CVarArg)
+        request.fetchLimit = 1
+        
+        do {
+            if let trackerCD = try context.fetch(request).first {
+                // Обновить поля
+                trackerCD.title = tracker.title
+                trackerCD.emoji = tracker.emoji
+                trackerCD.scheduleDays = tracker.schedule
+                trackerCD.color = UIColorMarshalling.hexString(from: tracker.color) ?? "#FFFFFF"
+                
+                // Если категория изменилась — переместить
+                let currentCategory = trackerCD.category
+                if currentCategory?.title != categoryTitle {
+                    // Найти/создать целевую категорию
+                    let targetCategory: TrackerCategoryCoreData
+                    if let existing = fetchCategoryEntity(withTitle: categoryTitle) {
+                        targetCategory = existing
+                    } else {
+                        targetCategory = TrackerCategoryCoreData(context: context)
+                        targetCategory.title = categoryTitle
+                    }
+                    
+                    // Удалить из старой категории
+                    if let old = currentCategory {
+                        old.removeFromTrackers(trackerCD)
+                    }
+                    
+                    // Положить в новую
+                    trackerCD.category = targetCategory
+                    targetCategory.addToTrackers(trackerCD)
+                }
+                
+                saveContext()
+                print("✅ Трекер обновлён: \(tracker.title)")
+            } else {
+                print("❌ Трекер для обновления не найден в Core Data: \(tracker.id)")
+            }
+        } catch {
+            print("❌ Ошибка при обновлении трекера: \(error)")
+        }
+    }
+    
     
     func fetchCategories() throws -> [TrackerCategory] {
         let request: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()

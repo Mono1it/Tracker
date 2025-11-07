@@ -21,7 +21,7 @@ final class TrackerStore: NSObject {
     func saveContext() {
         CoreDataManager.shared.saveContext()
     }
-
+    
     // MARK: - Core Data Methods
     enum TrackerStoreError: Error { case colorEncodingFailed; case colorDecodingFailed; case decodingFailed}
     
@@ -31,19 +31,19 @@ final class TrackerStore: NSObject {
         trackerCoreData.title = tracker.title
         trackerCoreData.emoji = tracker.emoji
         trackerCoreData.scheduleDays = tracker.schedule
-
+        
         if let hex = UIColorMarshalling.hexString(from: tracker.color) {
             trackerCoreData.color = hex
         } else {
             trackerCoreData.color = "#FFFFFF"
             print("⚠️ UIColorMarshalling.hexString returned nil for \(tracker.title). Using fallback color.")
         }
-
+        
         if let category = category {
             trackerCoreData.category = category
             category.addToTrackers(trackerCoreData)
         }
-
+        
         saveContext()
     }
     

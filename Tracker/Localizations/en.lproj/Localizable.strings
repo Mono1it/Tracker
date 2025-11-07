@@ -1,0 +1,66 @@
+"onboardText1" = "Track only what you want";
+"onboardText2" = "Even if it's not\nwater or yoga";
+"onboardButtonTitle" = "That's technology!";
+"tabBarTrackerTitle" = "Trackers";
+"tabBarStatTitle" = "Statistics";
+"trackerTitleText" = "Trackers";
+"startQuestionText" = "What would you like to track?";
+"searchbarPlaceholder" = "Search";
+"filterText" = "Filters";
+"notFoundText" = "Nothing found";
+"editAction" = "Edit";
+"deleteAction" = "Delete";
+"confirmDeleteMessage" = "Are you sure you want to delete this tracker?";
+"filterAll" = "All trackers";
+"filterToday" = "Trackers for today";
+"filterComplete" = "Completed";
+"filterUncomplete" = "Incomplete";
+"filterCategoryTitleText" = "Filters";
+"trackerTitleText_newHabit" = "New habit";
+"trackerPlaceholder" = "Enter tracker name";
+"trackerLimitText" = "Limit of 38 characters";
+"cancelText" = "Cancel";
+"createText" = "Create";
+"saveText" = "Save";
+"emojiHeader" = "Emoji";
+"colorHeader" = "Color";
+"categoryCell" = "Category";
+"scheduleCell" = "Schedule";
+"editTrackerTitle" = "Edit tracker";
+"completedDaysFormat" = "%d days";
+"everyDay" = "Every day";
+"scheduleTitleText" = "Schedule";
+"doneText" = "Done";
+
+"categoryTitleText" = "Category";
+"addButtonText" = "Add category";
+"startQuestionText" = "Habits and events can be grouped by meaning";
+"unnamedCategory" = "Untitled";
+"importantCategory" = "Important";
+"categorySelectedFormat" = "Category %@ selected";
+
+"newCategoryTitle" = "New category";
+"categoryPlaceholder" = "Enter category name";
+"categoryLimitText" = "Limit of 24 characters";
+
+"monday_full" = "Monday";
+"tuesday_full" = "Tuesday";
+"wednesday_full" = "Wednesday";
+"thursday_full" = "Thursday";
+"friday_full" = "Friday";
+"saturday_full" = "Saturday";
+"sunday_full" = "Sunday";
+
+"monday_short" = "Mon.";
+"tuesday_short" = "Tue.";
+"wednesday_short" = "Wed.";
+"thursday_short" = "Thu.";
+"friday_short" = "Fri.";
+"saturday_short" = "Sat.";
+"sunday_short" = "Sun.";
+
+"statistics_title" = "Statistics";
+"no_data_text" = "Nothing to analyze yet";
+"trackers_completed" = "Trackers completed";
+"cancel_button" = "Cancel";
+

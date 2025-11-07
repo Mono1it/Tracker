@@ -4,7 +4,7 @@ protocol DidSelectFilterDelegate: AnyObject {
     func didSelectFilter(filter: String)
 }
 
-enum filtersEnum: String {
+enum FiltersEnum: String {
     case all, today, complete, uncomplete
     
     var title: String {
@@ -31,7 +31,7 @@ final class FilterModalViewController: UIViewController {
     weak var delegate: DidSelectFilterDelegate?
     //MARK: - Data
     private var selectedFilter: String = ""
-    private let filters: [filtersEnum] = [
+    private let filters: [FiltersEnum] = [
         .all,
         .today,
         .complete,

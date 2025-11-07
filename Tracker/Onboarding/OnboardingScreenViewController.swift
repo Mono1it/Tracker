@@ -1,6 +1,6 @@
 import UIKit
 
-class OnboardingScreenViewController: UIPageViewController {
+final class OnboardingScreenViewController: UIPageViewController {
     
     var onFinish: (() -> Void)?
     var onboardText1: String = NSLocalizedString("onboardText1", comment: "Text displayed on onboarding")

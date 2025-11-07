@@ -6,7 +6,7 @@ final class TrackersViewController: UIViewController, HabitViewControllerDelegat
     private var categories: [TrackerCategory] = []
     private var trackerRecords: [TrackerRecord] = []
     private var currentDate: Date = Date()
-    private var currentFilter: filtersEnum = .all
+    private var currentFilter: FiltersEnum = .all
     private var trackersOfDay: [Tracker] = []
     private lazy var alertPresenter = AlertPresenter(self)
     private let analyticsService = AnalyticsService()
@@ -368,38 +368,14 @@ final class TrackersViewController: UIViewController, HabitViewControllerDelegat
     
     private func reloadPlaceholder() {
         let noTrackersAtAll = trackersOfDay.isEmpty
-        
         let filterGaveNothing = !noTrackersAtAll && visibleCategories.isEmpty
         
-        if noTrackersAtAll {
-            // Показываем "Что будем отслеживать?"
-            starImage.isHidden = false
-            startQuestion.isHidden = false
-            notFoundImage.isHidden = true
-            notFoundLabel.isHidden = true
-            collectionView.isHidden = true
-            filterButton.isHidden = true
-            return
-        }
-        
-        if filterGaveNothing {
-            // Показываем "Ничего не найдено"
-            starImage.isHidden = true
-            startQuestion.isHidden = true
-            notFoundImage.isHidden = false
-            notFoundLabel.isHidden = false
-            collectionView.isHidden = true
-            filterButton.isHidden = false
-            return
-        }
-        
-        // Есть что показать
-        starImage.isHidden = true
-        startQuestion.isHidden = true
-        notFoundImage.isHidden = true
-        notFoundLabel.isHidden = true
-        collectionView.isHidden = false
-        filterButton.isHidden = false
+        starImage.isHidden = !noTrackersAtAll
+        startQuestion.isHidden = !noTrackersAtAll
+        notFoundImage.isHidden = !filterGaveNothing
+        notFoundLabel.isHidden = !filterGaveNothing
+        collectionView.isHidden = noTrackersAtAll || filterGaveNothing
+        filterButton.isHidden = noTrackersAtAll
     }
     
 }
@@ -598,7 +574,7 @@ extension TrackersViewController: TrackerRecordStoreDelegate {
 
 extension TrackersViewController: DidSelectFilterDelegate {
     func didSelectFilter(filter: String) {
-        guard let newFilter = filtersEnum(rawValue: filter) else { return }
+        guard let newFilter = FiltersEnum(rawValue: filter) else { return }
         currentFilter = newFilter
         
         if newFilter == .today {
